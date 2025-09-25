@@ -1,9 +1,56 @@
 #include "MyArray.h"
 
+  struct Transaction
+    {
+        string invoice_no;
+        double amount;
+        string date;
+    };
+
+    MyArray<Transaction> transobj;
+
+    void addTransaction(const Transaction &t)
+    {
+        bool check = true;
+        for (int i = 0; i < transobj.get_size() ; i++)
+        {
+            if (transobj.get_array()[i].invoice_no == t.invoice_no)
+            {
+                check = false;
+                cout << "Duplicate Invoice is FOUND!" << endl;
+            }
+        }
+        if (check)
+        {
+            transobj.insertAt(transobj.get_size(), t);   
+        }
+        
+    }
+
+
 int main()
 {
+
+    Transaction t;
     MyArray<int> obj;
 
+        cout << "Enter the invoice number" << endl;
+        cin >> t.invoice_no;
+        cout << "Enter the amount " << endl;
+        cin >> t.amount;
+        cout << "Enter the date (format: YYYY-MM-DD)" << endl;
+        cin >> t.date;
+
+        addTransaction(t);
+        for (int i = 0; i < transobj.get_size(); i++)
+        {
+            cout << transobj.get_array()[i].invoice_no << endl;
+            cout << transobj.get_array()[i].date << endl;
+            cout << transobj.get_array()[i].amount << endl;
+        }
+        
+        
+        
     char ch = 'y';
 
     while (ch == 'y')
@@ -16,7 +63,7 @@ int main()
             int index, value;
             cout << "Enter index and value" << endl;
             cin >> index >> value;
-            obj.insertAt(index, value);
+            obj.insertAt(index, value); // Error coming : no suitable constructor exists to convert from "int" to "Transaction
         }
         if (n == 2)
         {
@@ -49,15 +96,15 @@ int main()
         if (n == 5)
         {
             obj.removeDuplicates();
-        }   
+        }
         if (n == 6)
         {
             cout << obj << endl;
         }
         if (n == 7)
         {
-            obj[0] = 50;
-            cout << obj[0] << endl;
+            obj[0] = 50;            // no operator "=" matches these operandsC/C++(349) main.cpp(66, 20): operand types are: Transaction = int
+            cout << obj[0] << endl; // same error
         }
         if (n == 8)
         {
@@ -68,9 +115,9 @@ int main()
             arr2.append(1);
             arr2.append(2);
             if (arr1 == arr2)
-            cout << "Both arrays are equal" << endl;
+                cout << "Both arrays are equal" << endl;
             else
-            cout << "Both arrays are not equal" << endl;
+                cout << "Both arrays are not equal" << endl;
         }
         if (n == 9)
         {
@@ -84,7 +131,7 @@ int main()
             MyArray<int> arr3 = arr1 + arr2;
             cout << arr3 << endl;
         }
-        
+
         cout << "Do you want to continue " << endl;
         cin >> ch;
     }

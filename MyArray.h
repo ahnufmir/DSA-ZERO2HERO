@@ -184,10 +184,10 @@ public:
                 {
                     cout << "    SIZE = " << size << endl;
                     for (int k = j; k < size - 1; k++)
-                    data[k] = data[k + 1];
-                size -= 1;
-                i -= 1;
-                cout << "    NEW SIZE = " << size << endl;
+                        data[k] = data[k + 1];
+                    size -= 1;
+                    i -= 1;
+                    cout << "    NEW SIZE = " << size << endl;
                 }
             }
         }
@@ -217,7 +217,7 @@ public:
             static T dummy{};
             return dummy;
         }
-            return data[index];
+        return data[index];
     }
     bool operator==(const MyArray &obj) const
     {
@@ -243,8 +243,8 @@ public:
         int newSize = this->size + obj.size;
         cout << "New Size " << newSize << endl;
         MyArray<T> newArr;
-        cout << "This size : "  << this->size << endl;
-        cout << "Obj size : "  << obj.size << endl;
+        cout << "This size : " << this->size << endl;
+        cout << "Obj size : " << obj.size << endl;
         for (int i = 0; i < this->size; i++)
         {
             newArr.append(this->data[i]);
@@ -261,7 +261,6 @@ public:
         //     cout<<newArr[i] << endl;
         // }
         return newArr;
-        
     }
     void menu()
     {
@@ -280,4 +279,5 @@ public:
     }
 };
 
+ 
 #endif
