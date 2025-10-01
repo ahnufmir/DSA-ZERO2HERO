@@ -86,9 +86,10 @@ public:
             return;
         }
 
-        if(array[index] != nullptr){
-        delete[] array[row_index];
-        array[row_index] = nullptr;
+        if (array[index] != nullptr)
+        {
+            delete[] array[row_index];
+            array[row_index] = nullptr;
         }
 
         int newcount = row_count - 1;
@@ -97,12 +98,12 @@ public:
         {
             delete[] array;
             delete[] col_size;
-            row_count=0;
+            row_count = 0;
             array = nullptr;
             col_size = nullptr;
             return;
         }
-        
+
         int *newColSize = new int[newcount];
         T **newArray = new T *[newcount];
 
@@ -111,11 +112,11 @@ public:
             newColSize[i] = col_size[i];
             newArray[i] = array[i];
         }
-        
+
         for (int i = row_index; i < newcount; i++)
         {
             newArray[i] = array[i + 1];
-            newColSize[i] = col_size[i+1];
+            newColSize[i] = col_size[i + 1];
         }
 
         delete[] array;
@@ -129,39 +130,60 @@ public:
     // 5.	Append Function: Adds an element at the end of the specified row.
     void append(T value, int row_num)
     {
-        if (row_num<0 || row_num>=row_count)
+        if (row_num < 0 || row_num >= row_count)
         {
             cout << "Invalid Index" << endl;
             return;
         }
-     
+
         // int* newColSize = new int[newcount];
-        //array[row_num]
+        // array[row_num]
 
         int n = col_size[row_num];
-        int newSize = n+1;
-        T* arr = new T[newSize];
+        int newSize = n + 1;
+        T *arr = new T[newSize];
 
         for (int i = 0; i < col_size[row_num]; i++)
         {
-            arr[i] = array[i];
+            arr[i] = array[row_num][i];
         }
-        
-        arr[newSize] = value;
+
+        arr[newSize - 1] = value;
         delete[] array[row_num];
         array[row_num] = arr;
         col_size[row_num] = newSize;
-        
     }
 
     // 6.	Prepend Function: Adds an element at the start of the specified row.
     void prepend(T value, int row_num)
     {
+        if (row_num < 0 || row_num >= row_count)
+        {
+            cout << "Invalid Index" << endl;
+            return;
+        }
+        
+        int n = col_size[row_num];
+        int newSize = n + 1;
+        
+        T *arr = new T[newSize];
+
+        arr[0] = value;
+        for (int i = 0; i < n; i++)
+        {
+            arr[i+1] = array[row_num][i];
+        }
+
+        delete[] array[row_num];
+        array[row_num] = arr;
+        col_size[row_num] = newSize;
+
     }
 
     // 7.	Delete From Last Function: Deletes the last element of the given row and shrinks its size.
     void delete_from_last(int row_num)
     {
+
     }
 
     // 8.	Delete From Start Function: Deletes the first element of the given row and shrinks its size.
