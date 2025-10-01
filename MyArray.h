@@ -8,276 +8,137 @@ template <typename T>
 class MyArray
 {
 private:
-    T *data;
-    int size;
-    int capacity;
+    int row_count;
+    int *col_size;
+    T **array;
 
 public:
+    // 1.	Constructor: Initializes an empty 2D array with row size set to 3 and column sizes set to 0 for each row.
     MyArray()
     {
-        size = 0;
-        capacity = 5;
-        data = new T[capacity];
+        row_count = 3;
+        col_size = new int[row_count];
+        array = new T *[row_count]; 
+        for (int i = 0; i < row_count; ++i)
+        {
+            col_size[i] = 0;
+            array[i] = nullptr;
+        }
     }
-    MyArray(int cap)
-    {
-        size = 0;
-        capacity = cap;
-        data = new T[capacity];
-    }
+
+    // 2.	Destructor: Frees the dynamically allocated memory.
     ~MyArray()
     {
-        delete[] data;
+        if (array)
+        {
+            for (int i = 0; i < row_count; ++i)
+            {
+                delete[] array[i];
+            }
+            delete[] array;
+            array = nullptr;
+        }
+        delete[] col_size;
+        col_size = nullptr;
+        row_count = 0;
     }
 
-    void append(T value)
+    // 3.	Add a new Row: Add a new empty row at the index and increase the row_count by 1 and shifting the previous columns to right.
+    void addRow(int row_index)
     {
-        if (size == capacity)
+        int* newColSize = new int[row_count+1];
+        T** newArray = new T*[row_count+1];
+
+        for (int i = 0; i < row_index; i++)
         {
-            capacity *= 2;
-            T *temp = new T[capacity];
-            for (int i = 0; i < size; i++)
-            {
-                temp[i] = data[i];
-            }
-            delete[] data;
-            data = temp;
+            newColSize[i] = col_size[i];
+            newArray[i] = array[i];
         }
-        data[size++] = value;
-    }
-    void prepend(T value)
-    {
-        if (size >= capacity)
+
+        newArray[row_index] = nullptr;
+        newColSize[row_index] = 0;
+
+        for (int i = row_index; i < row_count+1; i++)
         {
-            T *temp = new T[capacity * 2];
-            for (int i = 0; i < size; i++)
-            {
-                temp[i] = data[i];
-            }
-            delete[] data;
-            data = temp;
-            capacity = capacity * 2;
+            newArray[i+1] = array[i];
+            newColSize[i+1] = col_size[i];
         }
-        cout << "    SIZE = " << size << endl;
-        for (int i = size; i > 0; i--)
-        {
-            data[i] = data[i - 1];
-        }
-        data[0] = value;
-        size += 1;
-        cout << "    NEW SIZE = " << size << endl;
+        
+      
+        delete[] arr;
+        delete [] col_size;
+        newArray = array;
+        newColSize = col_size;
+        
+
     }
 
-    int get_size()
+    // 4.	Deletes an existing Row: Deletes a complete row shifting the remaining rows to the left..
+    void deleteRow(int row_index)
     {
-        return size;
-    }
-    int get_capacity()
-    {
-        return capacity;
-    }
-    T *get_array()
-    {
-        return data;
-    }
-    void insertAt(int index, T value)
-    {
-        if (index >= 0 && index <= size)
-        {
-            if (size >= capacity)
-            {
-                T *temp = new T[capacity * 2];
-                for (int i = 0; i < size; i++)
-                {
-                    temp[i] = data[i];
-                }
-                delete[] data;
-                data = temp;
-                capacity = capacity * 2;
-            }
-            cout << "    SIZE = " << size << endl;
-            for (int i = size; i > index; i--)
-            {
-                data[i] = data[i - 1];
-            }
-            data[index] = value;
-            size += 1;
-            cout << "    NEW SIZE = " << size << endl;
-        }
-        else
-            cout << "Error" << endl;
+  
     }
 
-    void removeAt(int index)
+    // 5.	Append Function: Adds an element at the end of the specified row.
+    void append(T value, int row_num)
     {
-        if (index >= 0 && index < size)
-        {
-            if (size >= capacity)
-            {
-                T *temp = new T[capacity * 2];
-                for (int i = 0; i < size; i++)
-                {
-                    temp[i] = data[i];
-                }
-                delete[] data;
-                data = temp;
-                capacity = capacity * 2;
-            }
-            cout << "    SIZE = " << size << endl;
-            for (int i = index; i < size - 1; i++)
-            {
-                data[i] = data[i + 1];
-            }
-            size -= 1;
-            cout << "    NEW SIZE = " << size << endl;
-        }
-        else
-            cout << "Error" << endl;
+
     }
+
+    // 6.	Prepend Function: Adds an element at the start of the specified row.
+    void prepend(T value, int row_num)
+    {
+    }
+
+    // 7.	Delete From Last Function: Deletes the last element of the given row and shrinks its size.
+    void delete_from_last(int row_num)
+    {
+    }
+
+    // 8.	Delete From Start Function: Deletes the first element of the given row and shrinks its size.
+    void delete_from_start(int row_num)
+    {
+    
+    }
+
+    // 9.	Insert at specific Index: Inserts value at a specific index in a row, shifting elements right.
+void insertAt(int row_num, int col_index, T value) {
+
+    
+}
+
+    // 10.	Delete from specific Index: Deletes the value from a specific index in a row, shifting elements left.
+    void deleteAt(int row_num, int col_index)
+    {
+    
+    }
+
+    // 11.	Display Function: Displays all rows, empty rows are displayed as blank lines.
     void display()
     {
-        for (int i = 0; i < size; i++)
-        {
-            cout << data[i] << endl;
-        }
     }
-    void sortArray(bool asc)
+
+    // 12.	Get Row Size Function: Returns the current number of rows.
+    int getRowSize()
     {
-        if (asc)
-        {
-            for (int h = 0; h < size - 1; h++)
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    if (data[i] > data[i + 1])
-                    {
-                        int temp = data[i + 1];
-                        data[i + 1] = data[i];
-                        data[i] = temp;
-                    }
-                }
-            }
-        }
-        else
-        {
-            for (int h = 0; h < size - 1; h++)
-            {
-                for (int i = 0; i < size - h - 1; i++)
-                {
-                    if (data[i] < data[i + 1])
-                    {
-                        int temp = data[i + 1];
-                        data[i + 1] = data[i];
-                        data[i] = temp;
-                    }
-                }
-            }
-        }
     }
-    void removeDuplicates()
+
+    // 13.	Get Column Size Function: Returns the column size of the specified row. Will return -1 on invalid row number.
+    int getColSize(int row_num)
     {
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = i + 1; j < size; j++)
-            {
-                if (data[i] == data[j])
-                {
-                    cout << "    SIZE = " << size << endl;
-                    for (int k = j; k < size - 1; k++)
-                        data[k] = data[k + 1];
-                    size -= 1;
-                    i -= 1;
-                    cout << "    NEW SIZE = " << size << endl;
-                }
-            }
-        }
+
     }
-    void reverse()
+
+    // 14.	Get Array Function: Returns a pointer to the 2D array.
+    T **getArray()
     {
-        for (int i = 0; i < size / 2; i++)
-        {
-            T temp = data[i];
-            data[i] = data[size - i - 1];
-            data[size - i - 1] = temp;
-        }
+
     }
-    friend ostream &operator<<(ostream &out, const MyArray<T> &obj)
+
+    // 15.	Palindrome Function: Returns true if the row is palindrome.
+    bool isRowPalindrome(int row_num)
     {
-        for (int i = 0; i < obj.size; i++)
-        {
-            out << obj.data[i] << endl;
-        }
-        return out;
-    }
-    T &operator[](int index)
-    {
-        if (index < 0 || index > size)
-        {
-            cout << "Invalid index or out of boundary access" << endl;
-            static T dummy{};
-            return dummy;
-        }
-        return data[index];
-    }
-    bool operator==(const MyArray &obj) const
-    {
-        bool check = true;
-        if (this->size != obj.size)
-        {
-            check = false;
-        }
-        else if (this->size == obj.size)
-        {
-            for (int i = 0; i < size; i++)
-            {
-                if (this->data[i] != obj.data[i])
-                {
-                    check = false;
-                }
-            }
-        }
-        return check;
-    }
-    MyArray<T> operator+(const MyArray<T> &obj)
-    {
-        int newSize = this->size + obj.size;
-        cout << "New Size " << newSize << endl;
-        MyArray<T> newArr;
-        cout << "This size : " << this->size << endl;
-        cout << "Obj size : " << obj.size << endl;
-        for (int i = 0; i < this->size; i++)
-        {
-            newArr.append(this->data[i]);
-        }
-        for (int j = 0; j < obj.size; j++)
-        {
-            newArr.append(obj.data[j]);
-        }
-        // cout << "This size : "  << this->size << endl;
-        // cout << "Obj size : "  << obj.size << endl;
-        // cout << "New Size " << newSize << endl;
-        // for (int i = 0; i < newArr.size; i++)
-        // {
-        //     cout<<newArr[i] << endl;
-        // }
-        return newArr;
-    }
-    void menu()
-    {
-        cout << "============ MENU ====================" << endl;
-        cout << "0. Display " << endl;
-        cout << "1. Append at Index " << endl;
-        cout << "2. Remove at Index " << endl;
-        cout << "3. Sorting " << endl;
-        cout << "4. Remove Duplicates " << endl;
-        cout << "5. Reverse " << endl;
-        cout << "6. << Operator Overloading " << endl;
-        cout << "7. [] Operator Overloading " << endl;
-        cout << "8. == Operator Overloading " << endl;
-        cout << "9. + Operator Overloading " << endl;
-        cout << "--------------------------------------" << endl;
     }
 };
 
- 
 #endif
