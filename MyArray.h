@@ -162,38 +162,91 @@ public:
             cout << "Invalid Index" << endl;
             return;
         }
-        
+
         int n = col_size[row_num];
         int newSize = n + 1;
-        
+
         T *arr = new T[newSize];
 
         arr[0] = value;
         for (int i = 0; i < n; i++)
         {
-            arr[i+1] = array[row_num][i];
+            arr[i + 1] = array[row_num][i];
         }
 
         delete[] array[row_num];
         array[row_num] = arr;
         col_size[row_num] = newSize;
-
     }
 
     // 7.	Delete From Last Function: Deletes the last element of the given row and shrinks its size.
     void delete_from_last(int row_num)
     {
+        if (row_num < 0 || row_num >= row_count)
+        {
+            cout << "Invalid Index" << endl;
+            return;
+        }
 
+        int n = col_size[row_num];
+        if (n == 0)
+        {
+            cout << "Array is already zero" << endl;
+            return;
+        }
+
+        // if (array[row_num][n-1] != nullptr)  // Realized that it is array of type T not pointers
+        // {
+        //     delete[] array[row_num][n];
+        //     array[row_num][n] = nullptr;
+        // }
+
+        int newSize = n - 1;
+
+        T *arr = (newSize > 0) ? new T[newSize] : nullptr;
+        for (int i = 0; i < newSize; i++)
+        {
+            arr[i] = array[row_num][i];
+        }
+
+        delete[] array[row_num];
+        array[row_num] = arr;
+        col_size[row_num] = newSize;
     }
 
     // 8.	Delete From Start Function: Deletes the first element of the given row and shrinks its size.
     void delete_from_start(int row_num)
     {
+        if (row_num < 0 || row_num >= row_count)
+        {
+            cout << "Invalid Index" << endl;
+            return;
+        }
+
+        int n = col_size[row_num];
+        if (n == 0)
+        {
+            cout << "Array is already zero" << endl;
+            return;
+        }
+
+        int newSize = n - 1;
+
+        T *arr = (newSize > 0) ? new T[newSize] : nullptr;
+        for (int i = 0; i < newSize; i++)
+        {
+            arr[i] = array[row_num][i + 1];
+        }
+
+        delete[] array[row_num];
+        array[row_num] = arr;
+        col_size[row_num] = newSize;
     }
 
     // 9.	Insert at specific Index: Inserts value at a specific index in a row, shifting elements right.
     void insertAt(int row_num, int col_index, T value)
     {
+        
     }
 
     // 10.	Delete from specific Index: Deletes the value from a specific index in a row, shifting elements left.
