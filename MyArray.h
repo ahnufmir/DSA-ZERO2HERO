@@ -70,7 +70,7 @@ public:
         newArray = array;
         newColSize = col_size;
         
-
+        
     }
 
     // 4.	Deletes an existing Row: Deletes a complete row shifting the remaining rows to the left..
