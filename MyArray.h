@@ -246,37 +246,141 @@ public:
     // 9.	Insert at specific Index: Inserts value at a specific index in a row, shifting elements right.
     void insertAt(int row_num, int col_index, T value)
     {
-        
+        if (row_num < 0 || row_num >= row_count || col_index < 0 || col_index > col_size[row_num])
+        {
+            cout << "Invalid Index" << endl;
+            return;
+        }
+        int row_size = col_size[row_num];
+        int newSize = row_size + 1;
+        if (row_size == 0)
+        {
+            col_index = 0;
+            T *newArray = new T[newSize];
+            newArray[col_index] = value;
+            delete[] array[row_num];
+            array[row_num] = newArray;
+            col_size[row_num] = newSize;
+            return;
+        }
+        T *newArray = new T[newSize];
+        for (int i = 0; i < col_index; i++)
+        {
+            newArray[i] = array[row_num][i];
+        }
+        newArray[col_index] = value;
+        for (int i = col_index; i < n; i++)
+        {
+            newArray[i + 1] = array[row_num][i];
+        }
+
+        delete[] array[row_num];
+        array[row_num] = newArray;
+        col_size[row_num] = newSize;
     }
 
     // 10.	Delete from specific Index: Deletes the value from a specific index in a row, shifting elements left.
     void deleteAt(int row_num, int col_index)
     {
+        if (row_num < 0 || row_num >= row_count || col_index < 0 || col_index >= col_size[row_num])
+        {
+            cout << "Invalid Index" << endl;
+            return;
+        }
+        int row_size = col_size[row_num];
+        int newSize = row_size - 1;
+        if (row_size == 0)
+        {
+            cout << "Array is already empty :)" << endl;
+            return;
+        }
+        T *newArray = new T[newSize];
+        for (int i = 0; i < col_index; i++)
+        {
+            newArray[i] = array[row_num][i];
+        }
+        for (int i = col_index; i < newSize; i++)
+        {
+            newArray[i] = array[row_num][i+ 1];
+        }
+
+        delete[] array[row_num];
+        array[row_num] = newArray;
+        col_size[row_num] = newSize;
     }
 
     // 11.	Display Function: Displays all rows, empty rows are displayed as blank lines.
     void display()
     {
+        for (int i = 0; i < row_count; i++)
+        {
+            int n = col_size[i];
+            if(n==0){
+                cout << endl;
+                continue;
+            }
+            for (int j = 0; j < n; j++)
+            {
+                cout << array[i][j] << " ";
+            }
+            cout << endl;
+        }
+        
     }
 
     // 12.	Get Row Size Function: Returns the current number of rows.
     int getRowSize()
     {
+        return row_count;
     }
 
     // 13.	Get Column Size Function: Returns the column size of the specified row. Will return -1 on invalid row number.
     int getColSize(int row_num)
     {
+        if(row_num<0 || row_num>= row_count)
+            return -1;
+        int n = col_size[row_num];
+        return n;
     }
 
     // 14.	Get Array Function: Returns a pointer to the 2D array.
     T **getArray()
     {
+        return array;
     }
 
     // 15.	Palindrome Function: Returns true if the row is palindrome.
     bool isRowPalindrome(int row_num)
     {
+        bool check = true;
+        if(row_num < 0 || row_num >= row_count){
+            cout << "Invalid Index" << endl;
+            return false;
+        }
+        int size = col_size[row_num];
+        if(size==1)
+        return true;
+        // else if(size==2){
+        //     if(array[row_num][0] == array[row_num][1])
+        //     return true;
+        //     else
+        //     return false;
+        // }
+        else if(size==0){
+            cout << "Row is empty" << endl;
+            return true;
+        }
+        else{
+            for (int i = 0; i < size/2; i++)
+            {
+                if(array[row_num][i] != array[row_num][(size-1)-i]){
+                    check = false;
+                    break;
+                }
+            }
+            return check;
+        }
+        
     }
 };
 
