@@ -572,6 +572,49 @@ public:
     }
     MyArray *sum(const Matrix &other) const
     {
+         if ((d0 > 0) && (d0 == other.d0) && arr1D != nullptr &&(!(d2 > 0)) && (!(d1 > 0)))
+        {
+            MyArray *result1d = new MyArray(d0);
+            for (int k = 0; k < d0; k++)
+            {
+                result1d->getElement(k) = this->getElement(k) + other.getElement(k);
+            }
+            return result1d;    
+        }
+        
+        else if ((d1 > 0) && ( d0>0)&& (d1 == other.d1) && (d0 == other.d0) && arr2D != nullptr &&(!(d2 > 0)))
+        {
+            MyArray *result2d = new MyArray(d0,d1);
+            for (int j = 0; j < d1; j++)
+            {
+                for (int k = 0; k < d0; k++)
+                {
+                    result2d->getElement(j,k) = this->getElement(j, k) + other.getElement(j,k);
+                }
+            }
+            return result2d;
+        }
+        
+        else if ((d2 > 0) && (d1 > 0) &&(d0 > 0) &&(d2 == other.d2) && (d1 == other.d1) && (d0 == other.d0) && arr3D != nullptr)
+        {
+            MyArray *result3d = new MyArray(d0,d1,d2);
+            for (int i = 0; i < d2; i++)
+            {
+                for (int j = 0; j < d1; j++)
+                {
+                    for (int k = 0; k < d0; k++)
+                    {
+                        result3d->getElement(i,j,k) = this->getElement(i, j, k) + other.getElement(i,j,k);
+                    }
+                }
+            }
+            return result3d;
+        }
+
+        else{
+            cout << "Given Array is not compatible for sum" << endl;
+            return nullptr;
+        }
     }
 };
 
