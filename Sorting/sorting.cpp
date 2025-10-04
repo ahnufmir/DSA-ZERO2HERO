@@ -127,7 +127,7 @@ public:
                 }
                 array[smallest] = temp;
             }    
-        }
+        }  
     }
 
     void selectionSort()
