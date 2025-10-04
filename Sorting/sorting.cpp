@@ -70,38 +70,63 @@ public:
 
     void insertionSort()
     { // Implements the Insertion Sort algorithm to sort the elements in the array.
-        for (int i = 0; i < size - 1; i++)
+        // for (int i = 0; i < size - 1; i++)
+        // {
+        //     for (int j = i + 1; j < size; j++)
+        //     {
+        //         if (i == 0)
+        //         {
+        //             if (array[j] < array[0])
+        //             {
+        //                 int temp = array[0];
+        //                 array[0] = array[j];
+        //                 array[j] = temp;
+        //             }
+        //         }
+        //         else
+        //         {
+        //             if (array[j] < array[i])
+        //             {
+        //                 int z;
+        //                 int temp = array[j];
+        //                 array[j] = array[i];
+        //                 for (int k = i - 1; k >= 0; k--)
+        //                 {
+        //                     if (temp < array[k])
+        //                     {
+        //                         array[i] = array[k];
+        //                     }
+        //                     z = k;
+        //                 }
+        //                 array[z] = temp;
+        //             }
+        //         }
+        //     }
+        // }
+
+        
+        for (int i = 1; i < size; i++)
         {
-            for (int j = i + 1; j < size; j++)
+            int smallest;
+            bool check = false;
+            for (int k = i - 1; k >= 0; k--)
             {
-                if (i == 0)
+                if ((array[i] < array[k]))
                 {
-                    if (array[j] < array[0])
-                    {
-                        int temp = array[0];
-                        array[0] = array[j];
-                        array[j] = temp;
-                    }
-                }
-                else
-                {
-                    if (array[j] < array[i])
-                    {
-                        int z;
-                        int temp = array[j];
-                        array[j] = array[i];
-                        for (int k = i - 1; k >= 0; k--)
-                        {
-                            if (temp < array[k])
-                            {
-                                array[i] = array[k];
-                            }
-                            z = k;
-                        }
-                        array[z] = temp;
-                    }
+                    smallest = k;
+                    check = true;
                 }
             }
+            if (check)
+            {
+                int temp = array[i];
+                for (int j =i-1; j >=smallest; j--)
+                {
+                    // arr[k+1] = temp;
+                    array[j+1] = array[j];
+                }
+                array[smallest] = temp;
+            }    
         }
     }
 
