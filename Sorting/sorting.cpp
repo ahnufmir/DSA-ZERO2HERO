@@ -104,7 +104,6 @@ public:
         //     }
         // }
 
-        
         for (int i = 1; i < size; i++)
         {
             int smallest;
@@ -120,32 +119,37 @@ public:
             if (check)
             {
                 int temp = array[i];
-                for (int j =i-1; j >=smallest; j--)
+                for (int j = i - 1; j >= smallest; j--)
                 {
                     // arr[k+1] = temp;
-                    array[j+1] = array[j];
+                    array[j + 1] = array[j];
                 }
                 array[smallest] = temp;
-            }    
-        }  
+            }
+        }
     }
 
     void selectionSort()
     { // Implements the Selection Sort algorithm to sort the elements in the array.
-        for (int i = 0; i < size - 1; i++)
+        for (int i = 0; i < size; i++)
         {
-            int smallest = array[i];
-            for (int j = i + 1; j < size; j++)
+            int smallest;
+            bool check = false;
+            for (int k = i + 1; k < size; k++)
             {
-                if (array[j] < array[i])
+                if ((array[k] < array[i]))
                 {
-                    array[j] = array[i];
+                    smallest = k;
+                    check = true;
                 }
-                smallest = array[j];
             }
-            cout << smallest << endl;
+            if (check)
+            {
+                int temp = array[i];
+                array[i] = array[smallest];
+                array[smallest] = temp;
+            }
         }
-        
     }
 
     void displayArray()
