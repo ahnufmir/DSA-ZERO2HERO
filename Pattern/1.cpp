@@ -1,23 +1,21 @@
 #include <iostream>
 using namespace std;
 
-void recusriveFn(int n, int sum){
-    if(n<=0)
-    return;
-    
-    cout << sum << endl;
-    recusriveFn(n-1, sum+=n);
-}
+        int recusriveFn(int n){
+            if(n==1)
+            return 1;
+            return n*recusriveFn(n-1); 
+        }
 
 
-int main()
-{
-    int n;
-    cout << "Enter a number you want to loop" << endl;
-    cin >> n;
-    int sum;
-    recusriveFn(n,sum=0);
-    cout << sum << endl;
+    int main()
+    {
+        int n;
+        cout << "Enter a number you want to loop" << endl;
+        cin >> n;
+        int sum;
+        sum = recusriveFn(n);
+        cout << sum<< endl;
 
 // Pattern of plus
     // int rows,col;
