@@ -152,6 +152,39 @@ public:
         }
     }
 
+    void quickSort(int *array, int start, int end)
+    {
+
+        int leftPointer = start;
+        int rightPointer = end;
+        int pivot = array[(start + end) / 2];
+
+        while (left <= right)
+        {
+            if (array[leftPointer] < pivot)
+            {
+                leftPointer++;
+            }
+            if (array[rightPointer] > pivot)
+            {
+                rightPointer--;
+            }
+            if (leftPointer <= rightPointer)
+            {
+                int temp = array[leftPointer];
+                array[leftPointer] = array[rightPointer];
+                array[rightPointer] = temp;
+                ++leftPointer;
+                --rightPointer;
+            }
+        }
+
+        if (start < rightPointer)
+            quickSort(array, start, rightPointer);
+        if (leftPointer < end)
+            quickSort(array, leftPointer, end);
+    }
+
     void displayArray()
     { // Prints the elements of the array to the console.
         for (int i = 0; i < size; i++)
