@@ -184,6 +184,98 @@ public:
         if (leftPointer < end)
             quickSort(array, leftPointer, end);
     }
+        void countSort()
+    {
+        if (size<=1)
+        {
+            return;
+        }
+        
+        int biggestNo;
+        if(size>0)
+        biggestNo = array[0];
+        for (int i = 1; i < size; i++)
+        {
+            if (array[i] > biggestNo)
+                biggestNo = array[i];
+        }
+        int *countArray = new int[biggestNo + 1];
+        for (int i = 0; i < biggestNo + 1; i++)
+        {
+            countArray[i] = 0;
+        }
+
+        for (int i = 0; i < biggestNo; i++)
+        {
+            int count = 0;
+            for (int j = 0; j < size; j++)
+            {
+                if (array[j] == i)
+                {
+                    count++;
+                }
+            }
+            countArray[i] = count;
+        }
+        // cout << "Count Array" << endl;
+        // for (int i = 0; i < biggestNo + 1; i++)
+        // {
+        //     cout << countArray[i] << " ";
+
+        // }
+        int *positionArray = new int[biggestNo + 1];
+        for (int i = 0; i < biggestNo + 1; i++)
+        {
+            if (i == 0)
+            {
+                positionArray[i] = countArray[i];
+                // cout << "Count Array at 0 : " << countArray[i] << endl;
+            }
+            else
+            {
+                positionArray[i] = (countArray[i] + positionArray[i - 1]);
+                // cout << positionArray[i] << endl;
+            }
+        }
+
+        // cout << endl << "Position Array ";
+        // for (int i = 0; i < biggestNo + 1; i++)
+        // {
+        //     cout << positionArray[i] << " ";
+        // }
+        // cout << endl;
+        int *finalArray = new int[size];
+        for (int i = (size - 1); i >= 0; i--)
+        {
+            int index = positionArray[array[i]];
+            index -= 1;
+            positionArray[array[i]] = index;
+            // cout << index << endl;
+            // cout << "Position Array ";
+            // for (int i = 0; i < biggestNo + 1; i++)
+            // {
+            //     cout << positionArray[i] << " ";
+            // }
+            finalArray[index] = array[i];
+           // cout << endl;
+           // cout << "Final Index " << finalArray[index] << endl;
+        }
+
+        // Debugging Outputs
+        // cout << "-----------" << endl;
+        // for (int i = 0; i < size; i++)
+        // {
+        //     cout << finalArray[i] << " ";
+        // }
+        //cout << endl;
+        for (int i = 0; i < size; i++)
+        {
+            array[i] = finalArray[i];
+        }
+        delete[] countArray;
+        delete[] positionArray;
+        delete[] finalArray;
+    }
 
     void displayArray()
     { // Prints the elements of the array to the console.
