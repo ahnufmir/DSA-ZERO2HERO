@@ -205,7 +205,7 @@ public:
             countArray[i] = 0;
         }
 
-        for (int i = 0; i < biggestNo; i++)
+        for (int i = 0; i < biggestNo+1; i++)
         {
             int count = 0;
             for (int j = 0; j < size; j++)
