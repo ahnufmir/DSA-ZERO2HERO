@@ -47,25 +47,25 @@ List::~List()
 
 void List::insertAtIndex(int index, int data)
 {
-    if (index <0 && index > count)
+    if (index < 0 && index > count)
     {
         cout << "Invalid Index" << endl;
         return;
     }
 
     Node *new_node = new Node();
-     new_node->setData(data);
-     new_node->setNext(nullptr);
+    new_node->setData(data);
+    new_node->setNext(nullptr);
 
     // Checking whether linked list is empty or not
     if (head == nullptr)
     {
-        head = tail =  new_node;
+        head = tail = new_node;
         count++;
         return;
     }
 
-    //Inserting at head
+    // Inserting at head
     if (index == 0)
     {
         new_node->setNext(head);
@@ -84,20 +84,82 @@ void List::insertAtIndex(int index, int data)
     }
 
     // Inserting at the middle
-    Node* temp = head;
-    for (int i = 0; i < index-1; i++)
+    Node *temp = head;
+    for (int i = 0; i < index - 1; i++)
     {
         temp = temp->getNext();
     }
     new_node->setNext(temp->getNext());
     temp->setNext(new_node);
-    count++;   
+    count++;
 }
- // Inserts a new node with the given data at the specified index in the list.
-// void List::deleteFromIndex(int index)
-// {
+// Inserts a new node with the given data at the specified index in the list.
+void List::deleteFromIndex(int index)
+{
+    if (index < 0 || index >= count)
+    {
+        cout << "Invalid Index" << endl;
+        return;
+    }
+    if (head == nullptr)
+    {
+        cout << "List is Empty" << endl;
+        return;
+    }
+    Node *node = head;
 
-// } // Deletes the node located at the specified index in the list.
+    // For Deleting Head
+    if (index == 0)
+    {
+        if (head==tail)
+        {
+            delete head;
+            tail = nullptr;
+            head = nullptr;
+        }
+        else
+        {
+            head = head->getNext();
+            node->setNext(nullptr);
+            count--;
+            delete node;
+
+        }
+        
+        return;
+    }
+    
+    // For deleting tail
+    if (index == count-1)
+    {
+        for (int i = 0; i < count-2; i++)
+        {
+            node = node->getNext();
+        }
+        tail = node;
+        node = node->getNext();
+        tail->setNext(nullptr);
+        delete node;
+        count--;
+        return;
+    }
+
+    Node *prevNode = head;
+    for (int i = 0; i < index-1; i++)
+    {
+        prevNode = prevNode->getNext();
+    }
+    for (int i = 0; i < index; i++)
+    {
+        node = node->getNext();
+    }
+    Node* aheadNode = node->getNext();
+    prevNode->setNext(aheadNode);
+    node->setNext(nullptr);
+    delete node;
+    count--;
+    
+} // Deletes the node located at the specified index in the list.
 void List::append(int data)
 {
     Node *fresh_node = new Node();
@@ -179,10 +241,14 @@ int List::getAtIndex(int index)
     }
     return (tempNode->getData());
 } // Returns the data stored in the node at the given index.
-// void List::reverse()
-// {
-
-// } // Reverses the order of nodes in the list in-place.
+void List::reverse()
+{
+    for (int i = 0; i < count/2; i++)
+    {
+        
+    }
+    
+} // Reverses the order of nodes in the list in-place.
 int List::countOccurrences(int value)
 {
     if (head == nullptr)
