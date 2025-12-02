@@ -75,6 +75,9 @@ void insertNode(int value); //Inserts a node into the tree using level order tra
 int getTreeHeight(); //Returns the height of the tree.
 int getHeight(int data); //Returns the height of a given node.
 TreeNode* getRoot(); //Returns the root node of the tree.
+int getDegree(int data);  //Returns the degree of a given node (number of children).
+TreeNode* findNode(int data);  //Finds and returns the node with the data otherwise return nullptr
+bool isFull();  //Returns true if every node has either 0 or 2 child.
 };
 
 #endif

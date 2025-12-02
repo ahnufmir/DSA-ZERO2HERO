@@ -349,3 +349,111 @@ TreeNode *Tree::getRoot()
 {
     return root;
 } // Returns the root node of the tree.
+
+int Tree::getDegree(int data)
+{
+    //return getDegreeHelperFunc(this->root, data);
+     if (root == nullptr)
+    {
+        return -1;
+    }
+    q1.clear();
+    q1.enqueue(root);
+    // int levelOrder = -1;
+    bool validDataCheck = false; 
+    int check = 0;
+    while (q1.getSize() > 0)
+    {
+        TreeNode *front = q1.dequeue();
+        if (front->getLeftChild() != nullptr)
+        {
+            q1.enqueue(front->getLeftChild());
+            if (data == front->getData())
+            {
+                check++;
+            }
+            
+        }
+
+        if (front->getRightChild() != nullptr)
+        {
+            q1.enqueue(front->getRightChild());
+               if (data == front->getData())
+            {
+                check++;
+            }
+        }
+
+        if (front->getData()==data){
+            validDataCheck = true;
+        }
+    }
+    if (!validDataCheck)
+    {
+        return -1;
+    }
+    return check;
+} // Returns the degree of a given node (number of children).
+TreeNode *Tree::findNode(int data)
+{
+    if (root == nullptr)
+    {
+        return nullptr;
+    }
+    q1.clear();
+    q1.enqueue(root);
+    // int levelOrder = -1;
+    bool check = false;
+    while (q1.getSize() > 0)
+    {
+        TreeNode *front = q1.dequeue();
+        if (front->getLeftChild() != nullptr)
+        {
+            q1.enqueue(front->getLeftChild());
+        }
+
+        if (front->getRightChild() != nullptr)
+        {
+            q1.enqueue(front->getRightChild());
+        }
+
+        if (front->getData()==data){
+            check = true;
+            return front;
+        }
+    }
+    if (!check)
+    {
+        return nullptr;
+    }
+    
+
+} // Finds and returns the node with the data otherwise return nullptr
+bool Tree::isFull()
+{
+    if (root == nullptr)
+    {
+        return true;
+    }
+    q1.clear();
+    q1.enqueue(root);
+    // int levelOrder = -1;
+    bool check = true;
+    while (q1.getSize() > 0)
+    {
+        TreeNode *front = q1.dequeue();
+        if (front->getLeftChild() != nullptr)
+        {
+            q1.enqueue(front->getLeftChild());
+        }
+
+        if (front->getRightChild() != nullptr)
+        {
+            q1.enqueue(front->getRightChild());
+        }
+
+        if ((front->getLeftChild() == nullptr) != (front->getRightChild() == nullptr))
+            check = false;
+    }
+    return check;
+} // Returns true if every node has either 0 or 2 child.
