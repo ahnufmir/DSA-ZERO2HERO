@@ -80,7 +80,7 @@ int getDegree(int data);  //Returns the degree of a given node (number of childr
 TreeNode* findNode(int data);  //Finds and returns the node with the data otherwise return nullptr
 bool isFull();  //Returns true if every node has either 0 or 2 child.
 void deleteNode(int value);
-void deleteNodeHelperFn(TreeNode *root, int data);
+bool deleteNodeHelperFn(TreeNode *root, int data);
 TreeNode *findParent(int data);
 };
 

@@ -293,49 +293,77 @@ TreeNode *Tree::findParent(int data)
     }
 }
 
-void Tree::deleteNodeHelperFn(TreeNode *root, int data)
+bool Tree::deleteNodeHelperFn(TreeNode *root, int data)
 {
     if (root == nullptr)
     {
-        return;
+        return false;
     }
     if (root->getData() == data)
     {
         // TreeNode* grandLeftChild =
         if ((root->getLeftChild() == nullptr) && (root->getRightChild() == nullptr))
         {
-            delete root;
+            TreeNode *parent = this->findParent(data);
+            if (parent->getLeftChild() == root)
+            {
+                parent->addLeftChild(nullptr);
+            }
+            else
+            parent->addRightChild(nullptr);
+            
             root = nullptr;
-            return;
+            delete root;
+            return true;
         }
         else if ((root->getLeftChild() != nullptr) && (root->getRightChild() == nullptr))
         {
             TreeNode *parent = this->findParent(data);
-            parent->addLeftChild(root->getLeftChild());
-            delete root;
+            if (parent)
+            {
+                if (parent->getLeftChild() == root)
+                    parent->addLeftChild(root->getLeftChild());
+                else
+                    parent->addRightChild(nullptr);
+                parent->addRightChild(root->getLeftChild());
+            }
+            else
+                root = root->getLeftChild();
+
             root = nullptr;
-            return;
+            delete root;
+            return true;
         }
         else if ((root->getLeftChild() == nullptr) && (root->getRightChild() != nullptr))
         {
             TreeNode *parent = this->findParent(data);
-            parent->addRightChild(root->getRightChild());
-            delete root;
+            if (parent)
+            {
+                if (parent->getLeftChild() == root)
+                    parent->addLeftChild(root->getRightChild());
+                else
+                    parent->addRightChild(nullptr);
+                parent->addRightChild(root->getRightChild());
+            }
+            else
+                root = root->getRightChild();
+
             root = nullptr;
-            return;
+            delete root;
+            return true;
         }
         else if ((root->getLeftChild() != nullptr) && (root->getRightChild() != nullptr))
         {
             TreeNode *target = root;
             TreeNode *parent = target;
-            TreeNode* successor = target->getRightChild();
-            while (successor->getLeftChild()!=nullptr)
+            TreeNode *successor = target->getRightChild();
+            while (successor->getLeftChild() != nullptr)
             {
                 parent = successor;
                 successor = successor->getLeftChild();
             }
             target->data = successor->data;
-            if (parent->getLeftChild()==successor)
+            if (parent->getLeftChild() == successor)
             {
                 parent->addLeftChild(nullptr);
             }
@@ -345,11 +373,17 @@ void Tree::deleteNodeHelperFn(TreeNode *root, int data)
             }
             delete successor;
             successor = nullptr;
-            return;
+            return true;
         }
     }
-    deleteNodeHelperFn(root->getLeftChild(), data);
-    deleteNodeHelperFn(root->getRightChild(), data);
+    if (deleteNodeHelperFn(root->getLeftChild(), data))
+    {
+        return true;
+    }
+    if (deleteNodeHelperFn(root->getRightChild(), data))
+    {
+        return true;
+    }
 }
 void Tree::deleteNode(int value)
 {
