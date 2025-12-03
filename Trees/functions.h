@@ -59,6 +59,7 @@ TreeNode* getRightChild(); //Returns a pointer to the right child.
 int getData(); //Returns the data stored in the node.
 void addLeftChild(TreeNode* node); //Adds a left child to the current node.
 void addRightChild(TreeNode* node); //Adds a right child to the current node.
+friend class Tree;
 };
 
 //Implement the Tree class
@@ -78,6 +79,9 @@ TreeNode* getRoot(); //Returns the root node of the tree.
 int getDegree(int data);  //Returns the degree of a given node (number of children).
 TreeNode* findNode(int data);  //Finds and returns the node with the data otherwise return nullptr
 bool isFull();  //Returns true if every node has either 0 or 2 child.
+void deleteNode(int value);
+void deleteNodeHelperFn(TreeNode *root, int data);
+TreeNode *findParent(int data);
 };
 
 #endif

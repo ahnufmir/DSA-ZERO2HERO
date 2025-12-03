@@ -247,6 +247,115 @@ void Tree::insertNode(int value)
     }
 }
 
+TreeNode *Tree::findParent(int data)
+{
+    if (root == nullptr)
+    {
+        return nullptr;
+    }
+    q1.clear();
+    q1.enqueue(root);
+    // int levelOrder = -1;
+    bool check = false;
+    while (q1.getSize() > 0)
+    {
+        TreeNode *front = q1.dequeue();
+
+        if (front->getLeftChild() != nullptr)
+        {
+            q1.enqueue(front->getLeftChild());
+        }
+
+        if (front->getRightChild() != nullptr)
+        {
+            q1.enqueue(front->getRightChild());
+        }
+        if (front->getLeftChild() != nullptr)
+        {
+            if ((front->getLeftChild()->getData() == data))
+            {
+                check = true;
+                return front;
+            }
+            if (front->getRightChild() != nullptr)
+            {
+                if ((front->getRightChild()->getData() == data))
+                {
+                    check = true;
+                    return front;
+                }
+            }
+        }
+        if (!check)
+        {
+            return nullptr;
+        }
+    }
+}
+
+void Tree::deleteNodeHelperFn(TreeNode *root, int data)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+    if (root->getData() == data)
+    {
+        // TreeNode* grandLeftChild =
+        if ((root->getLeftChild() == nullptr) && (root->getRightChild() == nullptr))
+        {
+            delete root;
+            root = nullptr;
+            return;
+        }
+        else if ((root->getLeftChild() != nullptr) && (root->getRightChild() == nullptr))
+        {
+            TreeNode *parent = this->findParent(data);
+            parent->addLeftChild(root->getLeftChild());
+            delete root;
+            root = nullptr;
+            return;
+        }
+        else if ((root->getLeftChild() == nullptr) && (root->getRightChild() != nullptr))
+        {
+            TreeNode *parent = this->findParent(data);
+            parent->addRightChild(root->getRightChild());
+            delete root;
+            root = nullptr;
+            return;
+        }
+        else if ((root->getLeftChild() != nullptr) && (root->getRightChild() != nullptr))
+        {
+            TreeNode *target = root;
+            TreeNode *parent = target;
+            TreeNode* successor = target->getRightChild();
+            while (successor->getLeftChild()!=nullptr)
+            {
+                parent = successor;
+                successor = successor->getLeftChild();
+            }
+            target->data = successor->data;
+            if (parent->getLeftChild()==successor)
+            {
+                parent->addLeftChild(nullptr);
+            }
+            else
+            {
+                parent->addRightChild(nullptr);
+            }
+            delete successor;
+            successor = nullptr;
+            return;
+        }
+    }
+    deleteNodeHelperFn(root->getLeftChild(), data);
+    deleteNodeHelperFn(root->getRightChild(), data);
+}
+void Tree::deleteNode(int value)
+{
+    deleteNodeHelperFn(root, value);
+} // deletes the node with the given value by replacing it with the last leaf node and then deleting it.
+
 int treeHeightHelperFunction(TreeNode *root)
 {
     if (root == nullptr)
