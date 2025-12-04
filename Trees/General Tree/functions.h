@@ -18,6 +18,7 @@ public:
     
 TreeNode(int value); //Constructor to initialize the node with a given value.
 TreeNode* getChild(int index); //Returns a pointer to the child.
+void TreeNode::setChild(int index, TreeNode *desiredNode);
 int getData(); //eturns the data stored in the node.
 void setData(int d);
 void addChild(TreeNode* node); //Adds a new child. Must handle array **resizing** (doubling capacity) if childrenCount reaches capacity.
@@ -47,6 +48,8 @@ void deleteNode(int data); // Deletes the node containing the given data while m
 void print_pre0rder(); // Prints the tree nodes' data using pre-order traversal (Root, Left, Right).
 void print_in0rder(); // Prints the tree nodes' data using an in-order traversal (Left, Root, Right).
 void print_post0rder(); // Prints the tree nodes' data using the post-order traversal (Left, Right, Root).
+bool deleteNodeHelperFn(TreeNode *&root, int data);
+TreeNode *findParent(int data);
 };
 
 
