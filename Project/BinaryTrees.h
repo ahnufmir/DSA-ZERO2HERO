@@ -1,0 +1,590 @@
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class Node
+{
+    // Data Members:
+    T data;        // The data stored in the node.
+    Node<T> *next; // Pointer to the next node in the list.
+
+    // Member Functions to Implement:
+public:
+    Node()
+    {
+        this->data = T{};
+        this->next = nullptr;
+    } // Initializes the node with a given data value and next = nullptr.
+    ~Node()
+    {
+        this->next = nullptr;
+    } // set the next to nullptr
+    void setNext(Node<T> *val)
+    {
+        next = val;
+    } // Sets the next pointer to the provided node.
+    Node<T> *getNext()
+    {
+        return next;
+    } // Returns the next node pointer.
+    void setData(T data)
+    {
+        this->data = data;
+    } // Sets the data of the node.
+    T getData()
+    {
+        return data;
+    } // Returns the data of the node.
+};
+
+template <typename T>
+class LinkedQueue
+{
+    // Data Members:
+    Node<T> *front; // Pointer to the first node (front of the queue).
+    Node<T> *rear;  // Pointer to the last node (rear of the queue).
+    int size;       // Stores the number of elements currently in the queue.
+
+    // Member Functions to Implement:
+public:
+    LinkedQueue()
+    {
+        front = rear = nullptr;
+        size = 0;
+    } // Initializes front = nullptr, rear = nullptr, and size = 0.
+    ~LinkedQueue()
+    {
+
+    } // Deallocates all nodes in the queue to prevent memory leaks.
+    bool isEmpty()
+    {
+        return (size == 0 ? true : false);
+    } // Returns true if the queue is empty; otherwise, false.
+    void enqueue(T data)
+    {
+        Node<T> *newNode = new Node<T>();
+        newNode->setData(data);
+        if (front == nullptr)
+        {
+            front = rear = newNode;
+            size++;
+            return;
+        }
+        else
+        {
+            rear->setNext(newNode);
+            rear = newNode;
+            T val = rear->getData();
+            rear->setNext(nullptr);
+            size++;
+            // cout << val << " is ADDED!" << endl;
+            return;
+        }
+    } // Creates a new node and adds it to the rear of the queue.
+    T dequeue()
+    {
+        Node<T> *toDelete = front;
+        if (front == nullptr)
+        {
+            cout << "Linked Queue is Empty" << endl;
+            return nullptr;
+        }
+        else if (size == 1)
+        {
+            front = rear = nullptr;
+            T top = toDelete->getData();
+            delete toDelete;
+            size--;
+            // cout << "Front Element (" << top << ") is removed!" << endl;
+            return top;
+        }
+        else
+        {
+            T top = front->getData();
+            front = front->getNext();
+            toDelete->setNext(nullptr);
+            delete toDelete;
+            size--;
+            // cout << "Front Element (" << top << ") is removed!" << endl;
+            return top;
+        }
+    } // Removes and returns the element from the front of the queue. If the queue is empty, print a message and return -1.
+    T peek()
+    {
+        if (front == nullptr)
+        {
+            cout << "Linked Queue is Empty" << endl;
+            return nullptr;
+        }
+
+        T top = front->getData();
+        cout << "Front Element is " << top << endl;
+        return top;
+    } // Returns the front element without removing it. If the queue is empty, print a message and return -1.
+    int getSize()
+    {
+        return size;
+    } // Returns the number of elements currently in the queue.
+    void clear()
+    {
+        Node<T> *toDelete = front;
+        while (toDelete != nullptr)
+        {
+            if (size == 0)
+            {
+                cout << "Linked List is Empty in clear process" << endl;
+                break;
+            }
+            dequeue();
+        }
+    } // Removes all nodes and resets the queue.
+    Node<T> *getFront()
+    {
+        return front;
+    }
+    void printQueue()
+    {
+        Node<T> *node = front;
+        while (node != nullptr)
+        {
+            cout << node->getData() << " ";
+            node = node->getNext();
+        }
+        cout << endl;
+    } // Displays the queue’s contents from front to rear in order.
+};
+
+// Implement the TreeNode class
+
+template <typename T>
+class TreeNode
+{
+    // Data Members:
+    T data;             // The value stored in the node.
+    TreeNode<T> *left;  // Pointer to the left child.
+    TreeNode<T> *right; // Pointer to the right child.
+
+    // Member Functions to Implement:
+public:
+    TreeNode(T value)
+    {
+        data = value;
+        left = nullptr;
+        right = nullptr;
+    } // Constructor to initialize the node with a given value.
+    TreeNode<T> *getLeftChild()
+    {
+        return left;
+    } // Returns a pointer to the left child.
+    TreeNode<T> *getRightChild()
+    {
+        return right;
+    } // Returns a pointer to the right child.
+    T getData()
+    {
+        return data;
+    } // Returns the data stored in the node.
+    void addLeftChild(TreeNode<T> *node)
+    {
+        left = node;
+    } // Adds a left child to the current node.
+    void addRightChild(TreeNode<T> *node)
+    {
+        right = node;
+    } // Adds a right child to the current node.
+    friend class Tree;
+};
+
+// Implement the Tree class
+template <typename T>
+class Tree
+{
+    // Data Members:
+    TreeNode<T> *root; // Pointer to the root node of the tree.
+    LinkedQueue<TreeNode *> q1;
+
+    // Member Functions to Implement:
+public:
+    Tree()
+    {
+        root = nullptr;
+    } // Constructor to initialize the tree.
+    ~Tree()
+    {
+    }
+    void insertNode(T value)
+    {
+        TreeNode<T> *newNode = new TreeNode(value);
+        if (root == nullptr)
+        {
+            root = newNode;
+            return;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        while (q1.getSize() > 0)
+        {
+            TreeNode<T> *front = q1.dequeue();
+            // cout << front->getData() << endl;
+            if (front->getLeftChild() == nullptr)
+            {
+                front->addLeftChild(newNode);
+                return;
+            }
+            else
+            {
+                q1.enqueue(front->getLeftChild());
+            }
+
+            if (front->getRightChild() == nullptr)
+            {
+                front->addRightChild(newNode);
+                return;
+            }
+            else
+            {
+                q1.enqueue(front->getRightChild());
+            }
+        }
+    } // Inserts a node into the tree using level order traversal.
+    int getTreeHeight()
+    {
+        if (root == nullptr)
+        {
+            return 0;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        int levelOrder = -1;
+        while (q1.getSize() > 0)
+        {
+            int levelSize = q1.getSize();
+            for (int i = 0; i < levelSize; i++)
+            {
+                TreeNode<T> *front = q1.dequeue();
+                if (front->getLeftChild() != nullptr)
+                {
+                    q1.enqueue(front->getLeftChild());
+                }
+
+                if (front->getRightChild() != nullptr)
+                {
+                    q1.enqueue(front->getRightChild());
+                }
+            }
+            levelOrder++;
+        }
+        return levelOrder;
+    } // Returns the height of the tree.
+    int getHeight(T data)
+    {
+        if (root == nullptr)
+        {
+            return 0;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        int levelOrder = 0;
+        bool check = false;
+        while (q1.getSize() > 0)
+        {
+            int levelSize = q1.getSize();
+            for (int i = 0; i < levelSize; i++)
+            {
+                TreeNode<T> *front = q1.dequeue();
+                if (data == front->getData())
+                {
+                    check = true;
+                    break;
+                }
+
+                if (front->getLeftChild() != nullptr)
+                {
+                    q1.enqueue(front->getLeftChild());
+                }
+
+                if (front->getRightChild() != nullptr)
+                {
+                    q1.enqueue(front->getRightChild());
+                }
+            }
+            if (check)
+            {
+                break;
+            }
+            else
+                levelOrder++;
+        }
+        if (!check)
+        {
+            return -1;
+        }
+
+        int height = getTreeHeight();
+        return (height - levelOrder);
+    } // Returns the height of a given node.
+    TreeNode<T> *getRoot()
+    {
+        return root;
+    } // Returns the root node of the tree.
+    T getDegree(T data)
+    {
+        if (root == nullptr)
+        {
+            return -1;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        // int levelOrder = -1;
+        bool validDataCheck = false;
+        int check = 0;
+        while (q1.getSize() > 0)
+        {
+            TreeNode<T> *front = q1.dequeue();
+            if (front->getLeftChild() != nullptr)
+            {
+                q1.enqueue(front->getLeftChild());
+                if (data == front->getData())
+                {
+                    check++;
+                }
+            }
+
+            if (front->getRightChild() != nullptr)
+            {
+                q1.enqueue(front->getRightChild());
+                if (data == front->getData())
+                {
+                    check++;
+                }
+            }
+
+            if (front->getData() == data)
+            {
+                validDataCheck = true;
+            }
+        }
+        if (!validDataCheck)
+        {
+            return -1;
+        }
+        return check;
+    } // Returns the degree of a given node (number of children).
+    TreeNode<T> *findNode(T data)
+    {
+        if (root == nullptr)
+        {
+            return nullptr;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        // int levelOrder = -1;
+        bool check = false;
+        while (q1.getSize() > 0)
+        {
+            TreeNode<T> *front = q1.dequeue();
+            if (front->getLeftChild() != nullptr)
+            {
+                q1.enqueue(front->getLeftChild());
+            }
+
+            if (front->getRightChild() != nullptr)
+            {
+                q1.enqueue(front->getRightChild());
+            }
+
+            if (front->getData() == data)
+            {
+                check = true;
+                return front;
+            }
+        }
+        if (!check)
+        {
+            return nullptr;
+        }
+    } // Finds and returns the node with the data otherwise return nullptr
+    TreeNode<T> *findParent(T data)
+    {
+        if (root == nullptr)
+        {
+            return nullptr;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        // int levelOrder = -1;
+        bool check = false;
+        while (q1.getSize() > 0)
+        {
+            TreeNode<T> *front = q1.dequeue();
+
+            if (front->getLeftChild() != nullptr)
+            {
+                q1.enqueue(front->getLeftChild());
+            }
+
+            if (front->getRightChild() != nullptr)
+            {
+                q1.enqueue(front->getRightChild());
+            }
+            if (front->getLeftChild() != nullptr)
+            {
+                if ((front->getLeftChild()->getData() == data))
+                {
+                    check = true;
+                    return front;
+                }
+                if (front->getRightChild() != nullptr)
+                {
+                    if ((front->getRightChild()->getData() == data))
+                    {
+                        check = true;
+                        return front;
+                    }
+                }
+            }
+            if (!check)
+            {
+                return nullptr;
+            }
+        }
+    }
+    bool deleteNodeHelperFn(TreeNode<T> *root, T data)
+    {
+        if (root == nullptr)
+        {
+            return false;
+        }
+        if (root->getData() == data)
+        {
+            // TreeNode* grandLeftChild =
+            if ((root->getLeftChild() == nullptr) && (root->getRightChild() == nullptr))
+            {
+                TreeNode<T> *parent = this->findParent(data);
+                if (parent->getLeftChild() == root)
+                {
+                    parent->addLeftChild(nullptr);
+                }
+                else
+                    parent->addRightChild(nullptr);
+
+                root = nullptr;
+                delete root;
+                return true;
+            }
+            else if ((root->getLeftChild() != nullptr) && (root->getRightChild() == nullptr))
+            {
+                TreeNode<T> *parent = this->findParent(data);
+                if (parent)
+                {
+                    if (parent->getLeftChild() == root)
+                        parent->addLeftChild(root->getLeftChild());
+                    else
+                        parent->addRightChild(nullptr);
+                    parent->addRightChild(root->getLeftChild());
+                }
+                else
+                    root = root->getLeftChild();
+
+                root = nullptr;
+                delete root;
+                return true;
+            }
+            else if ((root->getLeftChild() == nullptr) && (root->getRightChild() != nullptr))
+            {
+                TreeNode<T> *parent = this->findParent(data);
+                if (parent)
+                {
+                    if (parent->getLeftChild() == root)
+                        parent->addLeftChild(root->getRightChild());
+                    else
+                        parent->addRightChild(nullptr);
+                    parent->addRightChild(root->getRightChild());
+                }
+                else
+                    root = root->getRightChild();
+
+                root = nullptr;
+                delete root;
+                return true;
+            }
+            else if ((root->getLeftChild() != nullptr) && (root->getRightChild() != nullptr))
+            {
+                TreeNode<T> *target = root;
+                TreeNode<T> *parent = target;
+                TreeNode<T> *successor = target->getRightChild();
+                while (successor->getLeftChild() != nullptr)
+                {
+                    parent = successor;
+                    successor = successor->getLeftChild();
+                }
+                target->data = successor->data;
+                if (parent->getLeftChild() == successor)
+                {
+                    parent->addLeftChild(nullptr);
+                }
+                else
+                {
+                    parent->addRightChild(nullptr);
+                }
+                delete successor;
+                successor = nullptr;
+                return true;
+            }
+        }
+        if (deleteNodeHelperFn(root->getLeftChild(), data))
+        {
+            return true;
+        }
+        if (deleteNodeHelperFn(root->getRightChild(), data))
+        {
+            return true;
+        }
+    }
+    void deleteNode(T value)
+    {
+        deleteNodeHelperFn(root, value);
+    } // deletes the node with the given value by replacing it with the last leaf node and then deleting it.
+    TreeNode<T> *findLeftMost(TreeNode<T> *node)
+    {
+        if (node->getLeftChild() == nullptr)
+        {
+            return node;
+        }
+        else
+            return findLeftMost(node->getLeftChild());
+    }
+    bool isFull()
+    {
+        if (root == nullptr)
+        {
+            return true;
+        }
+        q1.clear();
+        q1.enqueue(root);
+        // int levelOrder = -1;
+        bool check = true;
+        while (q1.getSize() > 0)
+        {
+            TreeNode<T> *front = q1.dequeue();
+            if (front->getLeftChild() != nullptr)
+            {
+                q1.enqueue(front->getLeftChild());
+            }
+
+            if (front->getRightChild() != nullptr)
+            {
+                q1.enqueue(front->getRightChild());
+            }
+
+            if ((front->getLeftChild() == nullptr) != (front->getRightChild() == nullptr))
+                check = false;
+        }
+        return check;
+    } // Returns true if every node has either 0 or 2 child.
+};
+
+#endif
