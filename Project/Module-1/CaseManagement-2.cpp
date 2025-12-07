@@ -1,43 +1,48 @@
 #include "CaseManagement-2.h"
+//#include "../Module-4/HistoryStack-2.h" 
 
 CaseManagement::CaseManagement()
 {
-    size = 0;
+   // size = 0;
 }
 
-CaseManagement::~CaseManagement()
-{
+CaseManagement :: CaseManagement(HistoryStack *history){
+    hs = history;
 }
+
 
 void CaseManagement::appendCase(int caseID, string caseType, string location, int severnity, string status)
 {
     Case newCase(caseID, caseType, location, severnity, status);
     CaseList.append(newCase);
-    size++;
+   // size++;
+    hs->addStack(caseID, caseType, severnity, status, 0, "", "");
 }
 
 void CaseManagement::prependCase(int caseID, string caseType, string location, int severnity, string status)
 {
     Case newCase(caseID, caseType, location, severnity, status);
     CaseList.prepend(newCase);
-    size++;
+  //  size++;
+    hs->addStack(caseID, caseType, severnity, status, 0, "", "");
 }
 
 void CaseManagement::insertCaseAtAnyIndex(int index, int caseID, string caseType, string location, int severnity, string status)
 {
     Case newCase(caseID, caseType, location, severnity, status);
     CaseList.insertAtIndex(index, newCase);
-    size++;
+    //size++;
+    hs->addStack(caseID, caseType, severnity, status, 0, "", "");
 }
 void CaseManagement::deleteCaseFromStart()
 {
     CaseList.deleteFromStart();
-    size--;
+    //size--;
 }
 void CaseManagement::deleteCaseFromEnd()
 {
     CaseList.deleteFromEnd();
-    size--;
+   // size--;
 }
 void CaseManagement::updateCase(int index, int caseID, string caseType, string location, int severnity, string status)
 {
@@ -48,17 +53,30 @@ void CaseManagement::printCaseList()
 {
     CaseList.printList();
 }
+Case* CaseManagement::getCaseByID(int id)
+{
+    for (int i = 0; i < CaseList.getSize(); i++)
+    {
+        Node<Case>* node = CaseList.getNodeAtIndex(i);
+        if (node && node->getData().getCaseID() == id)
+            return &(node->getData());
+    }
+    return nullptr; // not found
+}
 Case *CaseManagement::searchByIndex(int caseID)
 {
     Node<Case> *node = CaseList.getNodeAtIndex(caseID);
-    Case *casePtr =  &(node->getData());
+    Case *casePtr = &(node->getData());
     return casePtr;
 }
-int CaseManagement:: getSize(){
-    return size;
+
+int CaseManagement::getSize()
+{
+    return CaseList.getSize();
 }
 
-List<Case> CaseManagement:: getCaseList(){
+List<Case>& CaseManagement::getCaseList()
+{
     return CaseList;
 }
 

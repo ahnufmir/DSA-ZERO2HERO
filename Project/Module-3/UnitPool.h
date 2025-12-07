@@ -2,6 +2,12 @@
 
 #include "../Headers/MyArray.h"
 #include "../Module-2/DispatchQueue-2.h"
+#include "../Module-4/HistoryStack-2.h"
+#include "../Module-1/CaseManagement-2.h"
+
+class DispatchQueue;    // forward declaration
+class CaseManagement;   // forward declaration
+class HistoryStack;     // forward declaration
 
 class UnitPool
 {
@@ -27,12 +33,14 @@ private:
 
     MyArray<Unit> units;
     DispatchQueue *q;
+    HistoryStack *hs;
+    CaseManagement *c;
     int nextID;
 
 public:
     UnitPool();
     ~UnitPool();
-    UnitPool(DispatchQueue*);
+    UnitPool(DispatchQueue*, CaseManagement*c, HistoryStack* hs);
     void appendUnit(string, string, string);
     void prepandUnit(string, string, string);
     void removeUnitAtIndex(int);

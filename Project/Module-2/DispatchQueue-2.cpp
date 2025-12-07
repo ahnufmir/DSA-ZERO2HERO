@@ -2,8 +2,7 @@
 
 DispatchQueue::DispatchQueue()
 {
-    size = 0;
-    caseManagementPtr = nullptr;
+    //caseManagementPtr = nullptr;
 }
 
 DispatchQueue::DispatchQueue(CaseManagement *ptr)
@@ -12,15 +11,20 @@ DispatchQueue::DispatchQueue(CaseManagement *ptr)
 }
 void DispatchQueue::addDispatch()
 {
+    if (!caseManagementPtr)
+    {
+        cout << "addDispatch: caseManagementPtr == nullptr\n";
+        return;
+    }
     int maxSeverity = 0;
     Case *highSeveritycase = nullptr;
-
+   // cout << "hiidii" << endl;
     for (int i = 0; i < caseManagementPtr->getSize(); i++)
     {
         Case *c = caseManagementPtr->searchByIndex(i);
         QueueNode<DispatchNode> *node = dispatchQueue.getFront();
         bool check = true;
-        ;
+        //   cout << "hiiii" << endl;
         while (node != nullptr)
         {
             DispatchNode d = node->getData();
@@ -36,6 +40,7 @@ void DispatchQueue::addDispatch()
         {
             maxSeverity = c->getSeverity();
             highSeveritycase = c;
+            c->setStatus("In-Progress");
         }
     }
     if (highSeveritycase)
@@ -46,7 +51,6 @@ void DispatchQueue::addDispatch()
         DispatchNode node(caseID, maxSeverity, caseType);
         dispatchQueue.enqueue(node);
         cout << "Case with Severity " << maxSeverity << " has been added to Dispatch Queue" << endl;
-        size++;
         return;
     }
     else
@@ -115,10 +119,10 @@ DispatchNode DispatchQueue::sendDispath()
     if (!dispatchQueue.isEmpty())
     {
         d = dispatchQueue.dequeue();
-        size--;
         return d;
     }
-    else{
+    else
+    {
         d.setCaseID(-1);
         cout << "Dispatch Queue is empty!" << endl;
         return d;
@@ -143,7 +147,7 @@ void DispatchQueue::emptyDispatchQueue()
 {
     dispatchQueue.clear();
 }
-LinkedQueue<DispatchNode>& DispatchQueue::getDispatchQueue()
+LinkedQueue<DispatchNode> &DispatchQueue::getDispatchQueue()
 {
     return dispatchQueue;
 }

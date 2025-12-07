@@ -20,7 +20,7 @@ public:
     } // Initializes the stack with an initial capacity 10, allocates the dynamic array with the initial capacity, sets size to 0.
     ~Stack()
     {
-        delete array;
+        delete[] array;
     } // Deallocates the dynamic array to prevent memory leaks.
     bool isEmpty()
     {
@@ -52,7 +52,7 @@ public:
         if (isEmpty())
         {
             cout << "Stack is Empty" << endl;
-            return  nullptr;
+            return T();
         }
         T top = array[size - 1];
         size--;
@@ -64,10 +64,11 @@ public:
         if (isEmpty())
         {
             cout << "Stack is Empty" << endl;
-            return nullptr;
+            return T();
         }
         T top = array[size - 1];
         cout << "Top element of the stack is " << top << endl;
+        return top;
     } // Returns the top element of the stack, don’t remove it from the stack. If the stack is empty, print a message and return -1.
     int getSize()
     {

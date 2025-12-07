@@ -5,12 +5,14 @@ UnitPool::UnitPool()
     nextID = 1;
     // size = 0;
     // capacity = 10;
-    // units = new Unit[capacity];
+    // units = new nit[capacity];
 }
 
-UnitPool::UnitPool(DispatchQueue *dispatchPtr)
+UnitPool::UnitPool(DispatchQueue *dispatchPtr, CaseManagement *casee, HistoryStack *history)
 {
     q = dispatchPtr;
+    c = casee;
+    hs = history;
     nextID = 1;
 }
 
@@ -33,6 +35,8 @@ void UnitPool::appendUnit(string typ, string loc, string statuss)
     u.responseTimeEstimate = 0;
     nextID++;
     units.append(u);
+
+    hs->addStack(0, "", 0, "", u.unitID, u.type, u.status);
 }
 
 void UnitPool::prepandUnit(string typ, string loc, string statuss)
@@ -49,26 +53,26 @@ void UnitPool::prepandUnit(string typ, string loc, string statuss)
     u.responseTimeEstimate = 0;
     nextID++;
     units.prepend(u);
+    hs->addStack(0, "", 0, "", u.unitID, u.type, u.status);
 }
 
 bool UnitPool::findAvailableUnit(string type)
 {
     for (int i = 0; i < units.get_size(); i++)
     {
-        
+
         if ((type == units[i].type))
         {
             if (units[i].status == "available")
             {
                 return true;
             }
-            
         }
     }
     return false;
 }
 
-UnitPool::Unit UnitPool:: makeUnitUnAvailable(string caseType)
+UnitPool::Unit UnitPool::makeUnitUnAvailable(string caseType)
 {
     for (int i = 0; i < units.get_size(); i++)
     {
@@ -103,7 +107,8 @@ UnitPool::Unit UnitPool:: makeUnitUnAvailable(string caseType)
     return none;
 }
 
-void UnitPool:: removeUnitAtIndex(int index){
+void UnitPool::removeUnitAtIndex(int index)
+{
     units.removeAt(index);
 }
 
@@ -123,8 +128,23 @@ void UnitPool::sendUnit()
     }
     string caseType = n.getCaseType();
     Unit u = makeUnitUnAvailable(caseType);
+    Case* ptr = c->getCaseByID(n.getCaseID());
+    string status;
+    if (ptr)
+    {
+        status = ptr->getStatus();
+    }
+    else
+    {
+        cout << "Status lene wala ptr assign nhi howa" << endl;
+        return;
+    }
+    
     if (u.unitID != -1)
+    {
         cout << "Unit ID " << u.unitID << " dispatched for " << caseType << endl;
+        hs->addStack(n.getCaseID(), n.getCaseType(), n.getSeverity(), status, u.unitID, u.type, u.status);
+    }
     else
         cout << "No available unit for " << caseType << endl;
 }
@@ -142,7 +162,7 @@ void UnitPool::menu()
     cout << "3. Remove Unit" << endl;
     cout << "4. Find Available Unit" << endl;
     cout << "5. Display Unit" << endl;
-   // cout << "6. Make Unit Unavailable" << endl;
+    // cout << "6. Make Unit Unavailable" << endl;
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout << "6. SEND UNIT !!" << endl;
 }

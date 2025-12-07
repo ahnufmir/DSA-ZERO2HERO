@@ -67,6 +67,9 @@ public:
         else
             return false;
     } // Returns true if the list is empty, otherwise false.
+    int getSize(){
+        return count;
+    }
     void append(T data)
     {
         Node<T> *newNode = new Node<T>();

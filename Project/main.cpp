@@ -1,6 +1,7 @@
 #include "./Module-1/CaseManagement-2.h"
 #include "../Module-2/DispatchQueue-2.h"
 #include "../Module-3/UnitPool.h"
+#include "../Module-4/HistoryStack-2.h"
 
 void menu()
 {
@@ -8,14 +9,16 @@ void menu()
     cout << "1. Incident Log" << endl;
     cout << "2. Dispatch Case" << endl;
     cout << "3. Send Unit" << endl;
+    cout << "4. Check History" << endl;
     cout << "--------------------" << endl;
 }
 
 int main()
 {
-    CaseManagement c;
+    HistoryStack *hs = new HistoryStack();
+    CaseManagement c(hs);
     DispatchQueue d(&c);
-    UnitPool u(&d);
+    UnitPool u(&d, &c, hs);
     char mainCH = 'y';
     while (mainCH == 'y')
     {
@@ -297,7 +300,7 @@ int main()
                     }
                     else
                         cout << "NOT Available at this Moment!" << endl;
-                    
+
                     break;
                 }
 
@@ -320,6 +323,41 @@ int main()
             }
         }
         break;
+
+        case 4:
+        {
+            char ch = 'y';
+            while (ch == 'y')
+            {
+                int choice;
+                hs->menu();
+                cin >> choice;
+                switch (choice)
+                {
+                case 1:
+                    hs->seekStack();
+                    break;
+
+                case 2:
+                    hs->removeStack();
+                    break;
+
+                case 3:
+                    hs->printStack();
+                    break;
+
+                case 4:
+                    hs->clearStack();
+                    break;
+
+                default:
+                    cout << "Invalid Option Selected" << endl;
+                    break;
+                }
+                cout << "Do you want to check history again? " << endl;
+                cin >> ch;
+            }
+        }
         }
     }
 }

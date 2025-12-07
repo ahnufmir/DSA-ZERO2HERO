@@ -2,12 +2,14 @@
 
 #include "DispatchNode-1.h"
 
+
+class CaseManagement; 
+
 class DispatchQueue
 {
 private:
     CaseManagement* caseManagementPtr;
     LinkedQueue<DispatchNode> dispatchQueue;
-    int size;
 public:
     DispatchQueue();
     DispatchQueue(CaseManagement*);

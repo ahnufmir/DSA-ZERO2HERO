@@ -4,6 +4,7 @@
 #include <iostream>
 #include "../Headers/Queue.h"
 #include "../Module-1/CaseManagement-2.h"
+#include "../Module-4/HistoryStack-2.h" 
 
 class DispatchNode
 {
