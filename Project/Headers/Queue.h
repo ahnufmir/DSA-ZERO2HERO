@@ -76,7 +76,7 @@ public:
         {
             rear->setNext(newNode);
             rear = newNode;
-            T val = rear->getData();
+            //T val = rear->getData();
             rear->setNext(nullptr);
             size++;
             // cout << val << " is ADDED!" << endl;
@@ -143,7 +143,7 @@ public:
         QueueNode<T> *node = front;
         while (node != nullptr)
         {
-            cout << node->getData() << " ";
+            cout << node->getData() << endl;
             node = node->getNext();
         }
         cout << endl;

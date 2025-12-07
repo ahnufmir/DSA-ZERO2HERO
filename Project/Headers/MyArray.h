@@ -246,7 +246,7 @@ public:
         {
             newArr.append(this->data[i]);
         }
-        int index;
+       // int index;
         for (int j = 0; j < newSize; j++)
         {
             newArr.append(obj.data[j]);
