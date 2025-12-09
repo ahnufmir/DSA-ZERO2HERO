@@ -80,6 +80,9 @@ public:
     {
         return data;
     }
+    T getValueAtIndex(int index){
+        return data[index];
+    }
     void insertAt(int index, T value)
     {
         if (index >= 0 && index <= size)
@@ -106,6 +109,18 @@ public:
         }
         else
             cout << "Error" << endl;
+    }
+
+    bool check(T value){
+        for (int i = 0; i < size; i++)
+        {
+            if (data[i] == value)
+            {
+                return true;
+            }
+            
+        }
+        return false;
     }
 
     void removeAt(int index)

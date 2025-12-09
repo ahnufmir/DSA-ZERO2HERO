@@ -1,7 +1,8 @@
-#include "./Module-1/CaseManagement-2.h"
+#include "../Module-1/CaseManagement-2.h"
 #include "../Module-2/DispatchQueue-2.h"
 #include "../Module-3/UnitPool.h"
 #include "../Module-4/HistoryStack-2.h"
+#include "../Module-5/Map.h"
 
 void menu()
 {
@@ -10,6 +11,7 @@ void menu()
     cout << "2. Dispatch Case" << endl;
     cout << "3. Send Unit" << endl;
     cout << "4. Check History" << endl;
+    cout << "5. Perform Mapping" << endl;
     cout << "--------------------" << endl;
 }
 
@@ -19,6 +21,8 @@ int main()
     CaseManagement c(hs);
     DispatchQueue d(&c);
     UnitPool u(&d, &c, hs);
+    Map m;
+
     char mainCH = 'y';
     while (mainCH == 'y')
     {
@@ -355,6 +359,120 @@ int main()
                     break;
                 }
                 cout << "Do you want to check history again? " << endl;
+                cin >> ch;
+            }
+        }
+        case 5:
+        {
+            char ch = 'y';
+            while (ch == 'y')
+            {
+                int choice;
+                m.displayMenu();
+                cin >> choice;
+                switch (choice)
+                {
+                case 1:
+                {
+                    string name, type;
+                    cout << "Enter place/point name and its type" << endl;
+                    cin >> name >> type;
+                    m.addPoint(name, type);
+                    break;
+                }
+                case 2:
+                {
+                    string name, type;
+                    int timing;
+                    cout << "Enter Source and Destination" << endl;
+                    cin >> name >> type;
+                    cout << "Enter the time taken" << endl;
+                    cin >> timing;
+                    m.setRoad(name, type, timing);
+                    break;
+                }
+
+                case 3:
+                {
+                    string name, type;
+                    // int timing;
+                    cout << "Enter Source and Destination" << endl;
+                    cin >> name >> type;
+                    // cout << "Enter the time taken" << endl;
+                    // cin >> timing;
+                    m.deleteRoad(name, type);
+                    break;
+                }
+
+                case 4:
+                {
+                    string name, type;
+                    int weight;
+                    cout << "Enter Old Source and Destination" << endl;
+                    cin >> name >> type;
+                    string name1, type1;
+                    cout << "Enter New Source and Destination" << endl;
+                    cin >> name1 >> type1;
+                    cout << "Enter the timing between new two roads" << endl;
+                    cin >> weight;
+                    m.updateRoad(name, type, name1, type1, weight);
+                    break;
+                }
+
+                case 5:
+                {
+                    string name;
+                    cout << "Enter Place" << endl;
+                    cin >> name;
+                    //          int* ptr= g.getNeighbours(source, neighbourCount);
+                    // for (int i = 0; i < neighbourCount; i++)
+                    // {
+                    //     cout << ptr[i] << endl;
+                    // }
+                    string *s = m.getConnectedRoads(name);
+                    int i = 0;
+                    while (s[i] != "")
+                    {
+                        cout << s[i] << endl;
+                        i++;
+                    }
+                    break;
+                }
+
+                case 6:
+                {
+                    string name;
+                    cout << "Enter Place" << endl;
+                    cin >> name;
+
+                    int n = m.getConnectedRoadsNumber(name);
+                    cout << "Road Connected with " << name << " are " << n << endl;
+                    break;
+                }
+                case 7:
+                {
+                    string name, name1;
+                    cout << "Enter Source and Destination" << endl;
+                    cin >> name >> name1;
+
+                    int n = m.getTime(name, name1);
+                    cout << "Time to get to " << name1 << " from " << name << " is " << n << endl;
+                    break;
+                }
+
+                case 8:
+                {
+                    m.displayMap();
+                    break;
+                }
+
+                default:
+                {
+                    cout << "Invalid Option Selected" << endl;
+                    break;
+                }
+                }
+                cout << "Do you want to do mapping again? " << endl;
                 cin >> ch;
             }
         }
