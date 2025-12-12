@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../Headers/SinglyLinkedList.h"
 #include "../Module-4/HistoryStack-2.h" 
+#include "../Headers/Sorting.h"
 
 using namespace std;
 

@@ -11,7 +11,7 @@ History::History()
     this->unitStatus = "";
 }
 
-History::History(int caseID, string caseType, int severity, string caseStatus, int unitID, string unitType, string unitStatus)
+History::History(int caseID, string caseType, int severity, string caseStatus, int unitID, string unitType, string unitStatus, int time)
 {
     this->caseID = caseID;
     this->caseType = caseType;
@@ -20,4 +20,5 @@ History::History(int caseID, string caseType, int severity, string caseStatus, i
     this->unitID = unitID;
     this->unitType = unitType;
     this->unitStatus = unitStatus;
+    this->ETA = time;
 }

@@ -21,7 +21,7 @@ UnitPool::~UnitPool()
     // delete[] units;
 }
 
-void UnitPool::appendUnit(string typ, string loc, string statuss)
+void UnitPool::appendUnit(string typ, string loc, string statuss, int responseTime)
 {
     Unit u;
     // cout << ' "ID Generator' << u << endl;
@@ -32,14 +32,14 @@ void UnitPool::appendUnit(string typ, string loc, string statuss)
     u.type = typ;
     u.currentLocation = loc;
     u.status = statuss;
-    u.responseTimeEstimate = 0;
+    u.responseTimeEstimate = responseTime;
     nextID++;
     units.append(u);
 
-    hs->addStack(0, "", 0, "", u.unitID, u.type, u.status);
+    hs->addStack(0, "", 0, "", u.unitID, u.type, u.status, u.responseTimeEstimate);
 }
 
-void UnitPool::prepandUnit(string typ, string loc, string statuss)
+void UnitPool::prepandUnit(string typ, string loc, string statuss, int time)
 {
     Unit u;
     // cout << ' "ID Generator' << u << endl;
@@ -50,10 +50,10 @@ void UnitPool::prepandUnit(string typ, string loc, string statuss)
     u.type = typ;
     u.currentLocation = loc;
     u.status = statuss;
-    u.responseTimeEstimate = 0;
+    u.responseTimeEstimate = time;
     nextID++;
     units.prepend(u);
-    hs->addStack(0, "", 0, "", u.unitID, u.type, u.status);
+    hs->addStack(0, "", 0, "", u.unitID, u.type, u.status, u.responseTimeEstimate);
 }
 
 bool UnitPool::findAvailableUnit(string type)
@@ -143,7 +143,7 @@ void UnitPool::sendUnit()
     if (u.unitID != -1)
     {
         cout << "Unit ID " << u.unitID << " dispatched for " << caseType << endl;
-        hs->addStack(n.getCaseID(), n.getCaseType(), n.getSeverity(), status, u.unitID, u.type, u.status);
+        hs->addStack(n.getCaseID(), n.getCaseType(), n.getSeverity(), status, u.unitID, u.type, u.status, u.responseTimeEstimate);
         q->sendDispath();
     }
     else
@@ -155,6 +155,15 @@ void UnitPool::displayUnits()
     units.display();
 }
 
+void UnitPool::bubbleSort(){
+    units.bubbleSort();
+    cout << "Units are sorted on basis of ETA" << endl;
+}
+
+void UnitPool::heapSort() {
+    units.heapSort(); 
+}
+
 void UnitPool::menu()
 {
     cout << "================== Unit Pool Menu =================" << endl;
@@ -163,7 +172,9 @@ void UnitPool::menu()
     cout << "3. Remove Unit" << endl;
     cout << "4. Find Available Unit" << endl;
     cout << "5. Display Unit" << endl;
+    cout << "6. Sort the units on basis of ETA" << endl;
+    cout << "7. Sort the units alphabatically "<< endl;
     // cout << "6. Make Unit Unavailable" << endl;
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-    cout << "6. SEND UNIT !!" << endl;
+    cout << "8. SEND UNIT !!" << endl;
 }

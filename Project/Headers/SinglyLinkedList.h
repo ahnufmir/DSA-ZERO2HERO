@@ -220,6 +220,7 @@ public:
         count++;
     } // Inserts a new node with the given data at the specified index in the list.
 
+    
     T search(T value)
     {
         if (head == nullptr)
@@ -290,6 +291,8 @@ public:
         }
         return countCheck;
     } // Counts and returns how many times the given value appears in the list.
+
+    
 };
 
 #endif

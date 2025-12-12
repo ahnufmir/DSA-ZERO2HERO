@@ -17,12 +17,13 @@ private:
     int unitID;
     string unitType;
     string unitStatus;
+    int ETA;
     friend class HistoryStack;
     friend ostream &operator<<(ostream &out, const History &h);
 
 public:
     History();
-    History(int, string, int, string, int, string, string);
+    History(int, string, int, string, int, string, string,int);
 };
 
 inline ostream &operator<<(ostream &out, const History &h)

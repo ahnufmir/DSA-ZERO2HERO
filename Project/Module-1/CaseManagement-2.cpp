@@ -16,7 +16,7 @@ void CaseManagement::appendCase(int caseID, string caseType, string location, in
     Case newCase(caseID, caseType, location, severnity, status);
     CaseList.append(newCase);
    // size++;
-    hs->addStack(caseID, caseType, severnity, status, 0, "", "");
+    hs->addStack(caseID, caseType, severnity, status, 0, "", "", 0);
 }
 
 void CaseManagement::prependCase(int caseID, string caseType, string location, int severnity, string status)
@@ -24,7 +24,7 @@ void CaseManagement::prependCase(int caseID, string caseType, string location, i
     Case newCase(caseID, caseType, location, severnity, status);
     CaseList.prepend(newCase);
   //  size++;
-    hs->addStack(caseID, caseType, severnity, status, 0, "", "");
+    hs->addStack(caseID, caseType, severnity, status, 0, "", "", 0);
 }
 
 void CaseManagement::insertCaseAtAnyIndex(int index, int caseID, string caseType, string location, int severnity, string status)
@@ -32,7 +32,7 @@ void CaseManagement::insertCaseAtAnyIndex(int index, int caseID, string caseType
     Case newCase(caseID, caseType, location, severnity, status);
     CaseList.insertAtIndex(index, newCase);
     //size++;
-    hs->addStack(caseID, caseType, severnity, status, 0, "", "");
+    hs->addStack(caseID, caseType, severnity, status, 0, "", "", 0);
 }
 void CaseManagement::deleteCaseFromStart()
 {

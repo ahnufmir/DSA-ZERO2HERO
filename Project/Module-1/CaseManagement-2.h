@@ -25,4 +25,5 @@ public:
     int getSize();
     List<Case>& getCaseList();
     Case* getCaseByID(int id);
+    void  sortCases();
 };

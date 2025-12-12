@@ -80,7 +80,8 @@ public:
     {
         return data;
     }
-    T getValueAtIndex(int index){
+    T getValueAtIndex(int index)
+    {
         return data[index];
     }
     void insertAt(int index, T value)
@@ -111,14 +112,14 @@ public:
             cout << "Error" << endl;
     }
 
-    bool check(T value){
+    bool check(T value)
+    {
         for (int i = 0; i < size; i++)
         {
             if (data[i] == value)
             {
                 return true;
             }
-            
         }
         return false;
     }
@@ -189,6 +190,62 @@ public:
             }
         }
     }
+    void bubbleSort()
+    { // Implements the Bubble Sort algorithm to sort the elements currently stored in the array.
+        for (int i = 0; i < size - 1; i++)
+        {
+            for (int j = i + 1; j < size; j++)
+            {
+                if (data[i] > data[j])
+                {
+                    T temp = data[i];
+                    data[i] = data[j];
+                    data[j] = temp;
+                }
+            }
+        }
+    }
+    void heapify(int size, int i) // Max Heaping
+    {
+        int left = 2 * i + 1;  // Left child of parent
+        int right = 2 * i + 2; // Right child of parent
+        int largest = i;       // Supposing the first element to be largest
+
+        if (left < size && data[largest] < data[left])
+        {
+            largest = left; // Making the left index the largest
+        }
+        if (right < size && data[largest] < data[right])
+        {
+            largest = right; // Making the right index the largest
+        }
+        if (largest != i)
+        {
+            T temp = data[i];
+            data[i] = data[largest]; // Swapping the largest element with the ith element
+            data[largest] = temp;
+            heapify(size, largest); // Doing recursion for the remaining elements
+        }
+    }
+    void heapSort()
+    {
+        int s = size;
+        for (int i = (s / 2) - 1; i >= 0; i--)
+        {
+            heapify(s, i); // Building max heap
+        }
+        while (s > 1)
+        {
+            T temp = data[s - 1];
+            data[s - 1] = data[0]; // Swapping first element with last
+            data[0] = temp;
+            s--; // Decreasing size as left part of array is being sorted
+            for (int i = (s / 2) - 1; i >= 0; i--)
+            {
+                heapify(s, i); // (Min) heaping the left unsorted right array
+            }
+        }
+    }
     void removeDuplicates()
     {
         for (int i = 0; i < size; i++)
@@ -199,7 +256,7 @@ public:
                 {
                     cout << "    SIZE = " << size << endl;
                     for (int k = j; k < size - 1; k++)
-                    data[k] = data[k + 1];
+                        data[k] = data[k + 1];
                 }
                 size -= 1;
                 i -= 1;
@@ -261,7 +318,7 @@ public:
         {
             newArr.append(this->data[i]);
         }
-       // int index;
+        // int index;
         for (int j = 0; j < newSize; j++)
         {
             newArr.append(obj.data[j]);

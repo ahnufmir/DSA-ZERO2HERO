@@ -10,12 +10,13 @@
         Stack<History> caseHistory;
     public:
         HistoryStack();
-        void addStack(int caseID, string caseType, int severity, string caseStatus, int unitID, string unitType, string unitStatus);
+        void addStack(int caseID, string caseType, int severity, string caseStatus, int unitID, string unitType, string unitStatus, int time);
         void removeStack();
         void seekStack();
         void printStack();
         void clearStack();
         void menu();
+      //  void mergeSort();
     // ~HistoryStack();
     };
 

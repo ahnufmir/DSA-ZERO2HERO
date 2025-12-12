@@ -241,7 +241,7 @@ int main()
                 {
                 case 1:
                 {
-                    // int index;
+                    int index;
                     string location;
                     string caseType;
                     string status;
@@ -253,17 +253,17 @@ int main()
                     cin >> caseType;
                     cout << "Enter unit Location" << endl;
                     cin >> location;
-                    // cout << "Enter case Severnity" << endl;
-                    // cin >> severnity;
+                    cout << "Enter the time unit can arrive" << endl;
+                    cin >> index;
                     cout << "Enter unit Status" << endl;
                     cin >> status;
-                    u.appendUnit(caseType, location, status);
+                    u.appendUnit(caseType, location, status, index);
                     break;
                 }
 
                 case 2:
                 {
-                    // int index;
+                    int index;
                     string location;
                     string caseType;
                     string status;
@@ -275,11 +275,11 @@ int main()
                     cin >> caseType;
                     cout << "Enter unit Location" << endl;
                     cin >> location;
-                    // cout << "Enter case Severnity" << endl;
-                    // cin >> severnity;
+                    cout << "Enter the time unit can arrive" << endl;
+                    cin >> index;
                     cout << "Enter unit Status" << endl;
                     cin >> status;
-                    u.prepandUnit(caseType, location, status);
+                    u.prepandUnit(caseType, location, status, index);
                     break;
                 }
 
@@ -315,6 +315,15 @@ int main()
                 }
 
                 case 6:
+                {
+                    u.bubbleSort();
+                    break;
+                }
+                case 7:
+                    u.heapSort();
+                    break;
+
+                case 8:
                     u.sendUnit();
                     break;
 

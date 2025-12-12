@@ -8,8 +8,8 @@ HistoryStack::HistoryStack(){
 
 }
 
-void HistoryStack::addStack(int caseID, string caseType, int severity, string caseStatus, int unitID, string unitType, string unitStatus){
-    History h(caseID, caseType, severity, caseStatus, unitID, unitType, unitStatus);
+void HistoryStack::addStack(int caseID, string caseType, int severity, string caseStatus, int unitID, string unitType, string unitStatus, int time){
+    History h(caseID, caseType, severity, caseStatus, unitID, unitType, unitStatus, time);
     caseHistory.push(h);
 }
 void HistoryStack::removeStack()
@@ -28,6 +28,8 @@ void HistoryStack::clearStack()
 {
     caseHistory.clear();
 }
+
+
 
 void HistoryStack::menu(){
     cout << "============== History Management Function ================" << endl;

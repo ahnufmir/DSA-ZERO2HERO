@@ -5,9 +5,9 @@
 #include "../Module-4/HistoryStack-2.h"
 #include "../Module-1/CaseManagement-2.h"
 
-class DispatchQueue;    // forward declaration
-class CaseManagement;   // forward declaration
-class HistoryStack;     // forward declaration
+class DispatchQueue;  // forward declaration
+class CaseManagement; // forward declaration
+class HistoryStack;   // forward declaration
 
 class UnitPool
 {
@@ -29,6 +29,18 @@ private:
                 << ", ETA: " << u.responseTimeEstimate;
             return out;
         }
+        bool operator>(const Unit &other) const
+        {
+            return responseTimeEstimate > other.responseTimeEstimate;
+            // OR for type sorting: return type > other.type;
+        }
+
+        // For HEAP SORT (uses operator<)
+        bool operator<(const Unit &other) const
+        {
+            return type < other.type; // Sort by ID
+            // OR: return type < other.type;
+        }
     };
 
     MyArray<Unit> units;
@@ -40,13 +52,15 @@ private:
 public:
     UnitPool();
     ~UnitPool();
-    UnitPool(DispatchQueue*, CaseManagement*c, HistoryStack* hs);
-    void appendUnit(string, string, string);
-    void prepandUnit(string, string, string);
+    UnitPool(DispatchQueue *, CaseManagement *c, HistoryStack *hs);
+    void appendUnit(string, string, string, int);
+    void prepandUnit(string, string, string, int);
     void removeUnitAtIndex(int);
     Unit makeUnitUnAvailable(string);
     bool findAvailableUnit(string type);
     void displayUnits();
+    void bubbleSort();
+    void heapSort();
     void sendUnit();
     void menu();
 };
