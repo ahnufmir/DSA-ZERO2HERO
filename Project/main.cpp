@@ -362,6 +362,7 @@ int main()
                 cin >> ch;
             }
         }
+        break;
         case 5:
         {
             char ch = 'y';
@@ -465,6 +466,14 @@ int main()
                     m.displayMap();
                     break;
                 }
+                case 9:
+                {
+                    // string source, dest;
+                    // cout << "Enter the source & dest" << endl;
+                    // cin >> source >> dest;
+                    m.sendUnitToIncidentPlace();
+                    break;
+                }
 
                 default:
                 {
@@ -476,6 +485,7 @@ int main()
                 cin >> ch;
             }
         }
+        break;
         }
     }
 }

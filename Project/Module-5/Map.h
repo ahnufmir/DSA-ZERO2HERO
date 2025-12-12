@@ -2,6 +2,7 @@
 #include "Point.h"
 #include "../Module-1/CaseManagement-2.h"
 #include "../Module-3/UnitPool.h"
+#include "../Headers/MyArray.h"
 
 class Map
 {
@@ -9,8 +10,6 @@ private:
     Graph<int> map;
     MyArray<Point> pointNameList;
     int nextID;
-    CaseManagement *c;
-    UnitPool *u;
    // Point P;
 public:
     Map(/* args */);
@@ -24,8 +23,8 @@ public:
     void getShortestPath(string pt1, string pt2);
     void displayMap();
     bool isPointValid(string);
-    void sendUnitToIncidentPlace(string name1, string name2);
-    
+    void sendUnitToIncidentPlace();
+
     void displayMenu();
    // bool checkValidPlace(string point1, string point2);
 };

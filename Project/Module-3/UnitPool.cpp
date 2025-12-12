@@ -119,7 +119,7 @@ void UnitPool::sendUnit()
         cout << "DispatchQueue pointer not set!" << endl;
         return;
     }
-    DispatchNode n = q->sendDispath();
+    DispatchNode n = q->viewDispatch();
 
     if (n.getCaseID() == -1)
     {
@@ -144,6 +144,7 @@ void UnitPool::sendUnit()
     {
         cout << "Unit ID " << u.unitID << " dispatched for " << caseType << endl;
         hs->addStack(n.getCaseID(), n.getCaseType(), n.getSeverity(), status, u.unitID, u.type, u.status);
+        q->sendDispath();
     }
     else
         cout << "No available unit for " << caseType << endl;
