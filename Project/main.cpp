@@ -3,6 +3,7 @@
 #include "../Module-3/UnitPool.h"
 #include "../Module-4/HistoryStack-2.h"
 #include "../Module-5/Map.h"
+#include "../Module-7/EmergencyResponseProtocol.h"
 
 void menu()
 {
@@ -12,6 +13,7 @@ void menu()
     cout << "3. Send Unit" << endl;
     cout << "4. Check History" << endl;
     cout << "5. Perform Mapping" << endl;
+    cout << "6. Apply Emergency SOP at Incident Place" << endl;
     cout << "--------------------" << endl;
 }
 
@@ -22,6 +24,7 @@ int main()
     DispatchQueue d(&c);
     UnitPool u(&d, &c, hs);
     Map m;
+    EmergencyProtocolTree e;
 
     char mainCH = 'y';
     while (mainCH == 'y')
@@ -324,6 +327,10 @@ int main()
                     break;
 
                 case 8:
+                    u.countSort();
+                    break;
+
+                case 9:
                     u.sendUnit();
                     break;
 
@@ -361,6 +368,10 @@ int main()
 
                 case 4:
                     hs->clearStack();
+                    break;
+
+                case 5:
+                    hs->loadFromFile();
                     break;
 
                 default:
@@ -495,6 +506,92 @@ int main()
             }
         }
         break;
+        case 6:
+        {
+            char ch = 'y';
+            while (ch == 'y')
+            {
+                int choice;
+                e.menu();
+                cin >> choice;
+                cin.ignore();
+                switch (choice)
+                {
+                case 1:
+                {
+                    int integer;
+                    cout << "Enter the password to enter into Admin Mode (in integers)" << endl;
+                    cin >> integer;
+                    cin.ignore();
+                    e.checkAdmin(integer);
+                    if (e.checkAdmin(integer))
+                    {
+                        cout << "You are now in Admin Mode" << endl;
+                    }
+                    else
+                    {
+                        cout << "Wrong Passcode" << endl;
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    string n1, n2, n3;
+                    cout << "Enter Node's Parent Name: "<< endl;
+                    getline(cin, n1);
+                    cout << "Enter Node's name: " << endl;;
+                    getline(cin, n2);
+                    cout << "Enter Node's type: "<< endl;
+                    getline(cin, n3);
+                    e.appendNode(n1, n2, n3);
+                    break;
+                }
+
+                case 3:
+                {
+                    string s;
+                    cout << "Write the name of Node to find its details" << endl;
+                    getline(cin, s);
+                    e.findNode(s);
+                    break;
+                }
+
+                case 4:
+                {
+                    string s;
+                    cout << "Write the name of Node to find its height" << endl;
+                    getline(cin, s);
+                    cout << "Height : " << e.findTreeHeight(s) << endl;
+                    break;
+                }
+
+                case 5:
+                {
+                    string s;
+                    cout << "Write the name of Node to find its parent" << endl;
+                    getline(cin, s);
+                    e.findParent(s);
+                    break;
+                }
+                case 6:
+                    e.display();
+                    break;
+
+                    // case 5:
+                    //     hs->loadFromFile();
+                    //     break;
+
+                default:
+                    cout << "Invalid Option Selected" << endl;
+                    break;
+                }
+                cout << "Do you want to make some changes in SOP again? " << endl;
+                cin >> ch;
+            }
         }
+        break;
+        }
+        cout << "Do you want to run this MODULE again?" << endl;
+        cin >> mainCH;
     }
 }

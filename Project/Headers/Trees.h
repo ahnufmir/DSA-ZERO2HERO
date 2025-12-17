@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef TREES_H
+#define TREES_H
 
 #include <iostream>
 using namespace std;
@@ -11,9 +11,9 @@ template <typename T>
 class TreeNode
 {
 private:
-   T data;              // The value stored in the node.
-   TreeNode <T>**children; // Dynamic array pointer.
-   int childrenCount;   // Current children count.
+   T data;                 // The value stored in the node.
+   TreeNode<T> **children; // Dynamic array pointer.
+   int childrenCount;      // Current children count.
    int capacity;
 
 public:
@@ -73,7 +73,8 @@ public:
    {
       childrenCount = n;
    }
-   template<typename>  friend class Tree;
+   template <typename>
+   friend class Tree;
 };
 
 template <typename T>
@@ -93,6 +94,7 @@ public:
    } // Constructor to initialize the tree.
    ~Tree()
    {
+      clearTree(root);
       root = nullptr;
    }
    TreeNode<T> *insertNodeHelperFn(TreeNode<T> *node, T parentData)
@@ -138,7 +140,7 @@ public:
          return;
       }
       // cout << "hi4" << endl;
-      int parentIndex = parentNode->getChildrenCount();
+      //int parentIndex = parentNode->getChildrenCount();
       parentNode->addChild(childNode);
       // cout << "hi5" << endl;
 
@@ -205,7 +207,7 @@ public:
       }
       return nullptr;
    }
-   TreeNode<T> *findParent(int index)
+   TreeNode<T> *findParent(T index)
    {
       return findParentHelperFunction(root, index);
    } // finds parent
@@ -405,6 +407,16 @@ public:
    {
       helperFunctionPostOrder(root);
    } // Prints the tree nodes' data using the post-order traversal (Left, Right, Root).
+   void clearTree(TreeNode<T> *node)
+   {
+      if (node == nullptr)
+         return;
+      for (int i = 0; i < node->getChildrenCount(); i++)
+      {
+         clearTree(node->getChild(i));
+      }
+      delete node;
+   }
 };
 
 #endif

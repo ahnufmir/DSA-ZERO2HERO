@@ -274,7 +274,7 @@ CXXFLAGS := -std=c++11 -Wall -IHeaders
 
 # Directories
 BUILD_DIR := build
-SRC_DIRS := . Module-1 Module-2 Module-3 Module-4 Module-5
+SRC_DIRS := . Module-1 Module-2 Module-3 Module-4 Module-5 Module-6 Module-7
 
 # Binary
 RUN_BIN := $(BUILD_DIR)/run.out

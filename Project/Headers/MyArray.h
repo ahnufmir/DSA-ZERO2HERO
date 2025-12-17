@@ -264,6 +264,55 @@ public:
             }
         }
     }
+void countSort()
+{
+    if (size <= 1) return;
+
+    int biggestNo = data[0];
+    for (int i = 1; i < size; i++) {
+        if (data[i] > biggestNo) biggestNo = data[i];
+    }
+ 
+    T *countArray = new T[biggestNo + 1];
+    for (int i = 0; i < biggestNo + 1; i++) {
+        countArray[i] = 0;
+    }
+    
+  
+    for (int i = 0; i < biggestNo + 1; i++) {
+        int count = 0;
+        for (int j = 0; j < size; j++) {
+            if (data[j] == i) count++;
+        }
+        countArray[i] = count;
+    }
+    
+  
+    T *positionArray = new T[biggestNo + 1];
+    for (int h = 0; h < biggestNo + 1; h++) {
+        if (h == 0) {
+            positionArray[h] = countArray[h];
+        } else {
+            positionArray[h] = countArray[h] + positionArray[h - 1];
+        }
+    }
+    
+  
+    T *finalArray = new T[size];
+    for (int k = (size - 1); k >= 0; k--) {
+        int index = positionArray[data[k]] - 1;
+        positionArray[data[k]] = index;
+        finalArray[index] = data[k];
+    }
+    
+    for (int l = 0; l < size; l++) {
+        data[l] = finalArray[l];
+    }
+
+    delete[] countArray;
+    delete[] positionArray;
+    delete[] finalArray;
+}
     void reverse()
     {
         for (int i = 0; i < size / 2; i++)

@@ -128,7 +128,7 @@ void UnitPool::sendUnit()
     }
     string caseType = n.getCaseType();
     Unit u = makeUnitUnAvailable(caseType);
-    Case* ptr = c->getCaseByID(n.getCaseID());
+    Case *ptr = c->getCaseByID(n.getCaseID());
     string status;
     if (ptr)
     {
@@ -139,7 +139,7 @@ void UnitPool::sendUnit()
         cout << "Status lene wala ptr assign nhi howa" << endl;
         return;
     }
-    
+
     if (u.unitID != -1)
     {
         cout << "Unit ID " << u.unitID << " dispatched for " << caseType << endl;
@@ -155,13 +155,55 @@ void UnitPool::displayUnits()
     units.display();
 }
 
-void UnitPool::bubbleSort(){
+void UnitPool::bubbleSort()
+{
     units.bubbleSort();
     cout << "Units are sorted on basis of ETA" << endl;
 }
 
-void UnitPool::heapSort() {
-    units.heapSort(); 
+void UnitPool::heapSort()
+{
+    units.heapSort();
+}
+
+void UnitPool::countSort()
+{
+    // Just extract and display in reverse
+    if (units.get_size() == 0)
+    {
+        cout << "No units to sort!" << endl;
+        return;
+    }
+    // cout << "DEBUG: Creating idArray..." << endl;
+    MyArray<int> idArray;
+   // cout << "DEBUG: Extracting IDs..." << endl;
+    for (int i = 0; i < units.get_size(); i++)
+    {
+        idArray.append(units[i].unitID);
+    }
+
+    // Sort ascending first
+      // cout << "DEBUG: Before countSort() call..." << endl;
+    idArray.countSort();
+
+    // Display in reverse
+       cout << "Unit IDs in DESCENDING order:" << endl;
+       for(int i = idArray.get_size() - 1; i >= 0; i--) {
+        int currentID = idArray[i];
+        
+        // Find and display the unit with this ID
+        for(int j = 0; j < units.get_size(); j++) {
+            if(units[j].unitID == currentID) {
+                cout << "ID: " << units[j].unitID << endl;
+                cout << "  Type: " << units[j].type << endl;
+                cout << "  Location: " << units[j].currentLocation << endl;
+                cout << "  Status: " << units[j].status << endl;
+                cout << "  ETA: " << units[j].responseTimeEstimate << " minutes" << endl;
+                cout << "  --------------------" << endl;
+                break;
+            }
+        }
+    }
 }
 
 void UnitPool::menu()
@@ -173,8 +215,9 @@ void UnitPool::menu()
     cout << "4. Find Available Unit" << endl;
     cout << "5. Display Unit" << endl;
     cout << "6. Sort the units on basis of ETA" << endl;
-    cout << "7. Sort the units alphabatically "<< endl;
+    cout << "7. Sort the units alphabatically " << endl;
+    cout << "8. Sort the units in reverse order " << endl;
     // cout << "6. Make Unit Unavailable" << endl;
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-    cout << "8. SEND UNIT !!" << endl;
+    cout << "9. SEND UNIT !!" << endl;
 }

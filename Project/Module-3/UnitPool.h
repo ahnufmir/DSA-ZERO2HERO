@@ -29,17 +29,18 @@ private:
                 << ", ETA: " << u.responseTimeEstimate;
             return out;
         }
+
+        // For BUBBLE SORT
         bool operator>(const Unit &other) const
         {
             return responseTimeEstimate > other.responseTimeEstimate;
             // OR for type sorting: return type > other.type;
         }
 
-        // For HEAP SORT (uses operator<)
+        // For HEAP SORT 
         bool operator<(const Unit &other) const
         {
-            return type < other.type; // Sort by ID
-            // OR: return type < other.type;
+            return type < other.type; 
         }
     };
 
@@ -62,5 +63,6 @@ public:
     void bubbleSort();
     void heapSort();
     void sendUnit();
+    void countSort();
     void menu();
 };

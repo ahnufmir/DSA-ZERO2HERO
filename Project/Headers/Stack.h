@@ -88,7 +88,7 @@ public:
         cout << "Stack :" << endl;
         for (int i = 0; i < size; i++)
         {
-            cout << array[i] << endl;
+            cout << "=> " <<array[i] << endl;
         }
     } // Prints all the elements in the stack from top to bottom.
 };
